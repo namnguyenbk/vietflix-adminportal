@@ -1,0 +1,34 @@
+<nz-table #nzTable [nzData]="list_of_user" [nzPageSize]="list_of_user.length" nzTitle="Danh sách người dùng">
+  <thead>
+    <tr>
+      <th nzShowExpand></th>
+      <th>Tên</th>
+      <th>Email</th>
+      <th>Trạng thái</th>
+      <th>Quyền</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      <tr>
+        <td nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.email }}</td>
+        <td *ngIf="data.status=='blocked'"><span nz-text nzType="danger">{{ data.status }}</span></td>
+        <td *ngIf="data.status!='blocked'">{{ data.status }}</td>
+        <td>{{ data.role }}</td>
+        <td>
+          <a >Cấp quyền</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a *ngIf="data.status!='blocked'">Khoá</a>
+          <a *ngIf="data.status=='blocked'">Bỏ khoá</a>
+        </td>
+      </tr>
+      <tr [nzExpand]="mapOfExpandData[data.id]">
+        <td></td>
+        <td colspan="5">{{data.name}} - {{ data.created }}</td>
+      </tr>
+    </ng-template>
+  </tbody>
+</nz-table>
