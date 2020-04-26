@@ -37,10 +37,10 @@
         <span>Inform</span>
         <a routerLink="/inform"></a>
       </li>
-      <li (click)="logout()"nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Inform' : ''">
+      <!-- <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Inform' : ''">
         <i nz-icon nzType="logout"></i>
         <span>Logout</span>
-      </li>
+      </li> -->
     </ul>
   </nz-sider>
   <nz-layout>
@@ -52,6 +52,8 @@
                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
             ></i>
         </span>
+        <span nz-text><b>Quản trị viên: Nam nguyễn</b></span>
+        <button nz-button (click)="logout()" [nzSize]="small" nzType="dashed"> <i nz-icon nzType="logout"></i>Logout</button>
       </div>
     </nz-header>
     <nz-content>

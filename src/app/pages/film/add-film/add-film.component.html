@@ -1,1 +1,158 @@
-<p>add-film works!</p>
+<h3 nz-title><i nz-icon nzType="video-camera"></i>Thêm phim</h3>
+<nz-steps [nzCurrent]="current">
+  <nz-step nzTitle="Thông tin chung"></nz-step>
+  <nz-step nzTitle="Thông tin tập phim"></nz-step>
+  <nz-step nzTitle="Hoàn thành"></nz-step>
+</nz-steps>
+
+
+<div class="steps-content" >
+  <form  *ngIf="current === 0" nz-form [formGroup]="add_film_form_1" class="add-form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >Tên phim</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên phim!">
+        <input nz-input formControlName="name" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" >Tên phụ</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="subname" />
+  </nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" >Đạo diễn</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <input nz-input formControlName="director" />
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24">Diễn viên</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <input nz-input formControlName="actor" placeholder="Emma Watson, Daniel Radcliffe"/>
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >Thể loại</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng chọn thể loại!">
+    <nz-select formControlName="category" nzMode="tags" nzPlaceHolder="Thể loại phim" >
+      <nz-option *ngFor="let category of list_of_category" [nzLabel]="category.name" [nzValue]="category.id"></nz-option>
+    </nz-select>
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >Kiểu phát hành</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <nz-select formControlName="type" >
+      <nz-option nzLabel="Phim lẻ, phim chiếu rạp" nzValue=1></nz-option>
+      <nz-option nzLabel="Phim bộ, series" nzValue=2></nz-option>
+    </nz-select>
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24">Hãng xản xuất</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <input nz-input formControlName="brand" />
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" >Thời gian phát hành</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <nz-date-picker formControlName="date" nzPlaceHolder="Chọn thời gian"></nz-date-picker>
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Tóm tắt nội dung phim</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập nội dung tóm tắt phim!">
+    <textarea rows="10" nz-input formControlName="description"></textarea>
+</nz-form-control>
+</nz-form-item>
+  </form>
+<!-- Step 2 -->
+<form  *ngIf="current === 1 && type == 1" nz-form [formGroup]="add_film_form_21" class="add-form">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" >Thời lượng</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="length" />
+  </nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn video phim</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn video cho phim!">
+    <input nz-input formControlName="video_url" />
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn trailer</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn trailer phim!">
+    <input nz-input formControlName="trailer_url" />
+</nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn poster của phim</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn poster của phim!">
+    <input nz-input formControlName="poster_url"  />
+</nz-form-control>
+</nz-form-item>
+</form>
+
+<form  *ngIf="current === 1 && type == 2" nz-form [formGroup]="add_film_form_22" class="add-form">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn trailer</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn trailer phim!">
+      <input nz-input formControlName="trailer_url_2" />
+  </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn poster của phim</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn poster của phim!">
+      <input nz-input formControlName="poster_url_2" />
+  </nz-form-control>
+  </nz-form-item>
+  <nz-form-item *ngFor="let control of listOfControl; let i = index">
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="control.controlInstance" nzRequired
+      >Tập phim {{i+1}}
+    </nz-form-label>
+    <nz-form-control
+    [nzSm]="14" [nzXs]="24"
+    nzErrorTip="Nhập đường dẫn video cho phim!"
+    >
+      <input
+        class="passenger-input"
+        nz-input
+        placeholder="Đường dẫn video của tập phim"
+        [attr.id]="control.id"
+        [formControlName]="control.controlInstance"
+      />
+      <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzXs]="{ span: 17, offset: 0 }" [nzSm]="{ span: 17, offset: 4 }">
+      <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+        <i nz-icon nzType="plus"></i>
+        Thêm tập phim
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form> 
+
+<!-- Step 3 -->
+<h1 *ngIf="current === 2">Done</h1>
+</div>
+
+<!-- Step 3 -->
+<div class="steps-action">
+  <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+    <i nz-icon nzType="left"></i>
+    <span>Quay lại</span>
+  </button>
+  <button nz-button nzType="default" (click)="next()" *ngIf="current < 2">
+    <i nz-icon nzType="right"></i>
+    <span>Tiếp</span>
+  </button>
+  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
+    <i nz-icon nzType="save"></i>
+    <span>Lưu</span>
+  </button>
+</div>

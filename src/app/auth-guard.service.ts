@@ -13,11 +13,14 @@ export class AuthGuardService implements CanActivate{
   }
     async canActivate() {
       let is_valid_token = false;
-      let access_token = localStorage.getItem('access_token')
-      // return !this.jwtHelper.isTokenExpired(access_token);
-      await this.user_services.get_me(access_token).toPromise().then(
+      await this.user_services.get_me().toPromise().then(
         (res : User) =>{
-          is_valid_token = true;
+          if( res.role == 'user'){
+            is_valid_token = false;
+          }else{
+            is_valid_token = true;
+          }
+
         },
         error =>{
           this.router.navigate(['login'])

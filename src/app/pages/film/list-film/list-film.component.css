@@ -1,0 +1,28 @@
+.ant-advanced-search-form {
+    padding: 24px;
+    background: #fbfbfb;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+  }
+
+  [nz-form-label] {
+    overflow: visible;
+  }
+
+button {
+    margin-left: 8px;
+  }
+
+  .search-area {
+    text-align: right;
+  }
+
+  nz-select {
+    width: 100%;
+  }
+
+  .add-area {
+    padding: 12px;
+    background: #fbfbfb;
+    border-radius: 6px;
+  }

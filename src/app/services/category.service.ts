@@ -11,7 +11,7 @@ export class CategoryService {
   }
 
   get_category(){
-    let url = environment.base_url_api + "/catgories"
+    let url = environment.base_url_api + "/categories"
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token

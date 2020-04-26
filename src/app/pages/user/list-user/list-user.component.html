@@ -1,3 +1,84 @@
+<form nz-form [formGroup]="search_form" class="ant-advanced-search-form">
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="8">
+      <nz-form-item >
+        <nz-form-label >Tên</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="Jon Nguyen"
+            formControlName="search_name"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-form-item >
+        <nz-form-label >Email</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="user@gmail.com"
+            formControlName="search_email"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label >Trạng thái</nz-form-label>
+        <nz-form-control>
+          <nz-select id="search_status" formControlName="search_status">
+            <nz-option nzValue="active" nzLabel="Hoạt động"></nz-option>
+            <nz-option nzValue="blocked" nzLabel="Bị khoá"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="8">
+      <nz-form-item >
+        <nz-form-label >Quyền</nz-form-label>
+        <nz-form-control >
+          <nz-select id="search_role" formControlName="search_role">
+            <nz-option nzValue="admin" nzLabel="Quản trị viên"></nz-option>
+            <nz-option nzValue="user" nzLabel="Người dùng thường"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-form-item >
+        <nz-form-label >Từ ngày</nz-form-label>
+        <nz-form-control >
+          <nz-date-picker formControlName="from_date"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-form-item >
+        <nz-form-label >Đến ngày</nz-form-label>
+        <nz-form-control >
+          <nz-date-picker formControlName="to_date"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="search()">Tìm kiếm</button>
+      <button nz-button (click)="reset_form()">Xoá </button>
+    </div>
+  </div>
+
+</form>
+
 <nz-table #nzTable [nzData]="list_of_user" [nzPageSize]="list_of_user.length" nzTitle="Danh sách người dùng">
   <thead>
     <tr>
@@ -19,10 +100,10 @@
         <td *ngIf="data.status!='blocked'">{{ data.status }}</td>
         <td>{{ data.role }}</td>
         <td>
-          <a >Cấp quyền</a>
+          <a (click)="open_role_modal(data.id)">Cấp quyền</a>
           <nz-divider nzType="vertical"></nz-divider>
-          <a *ngIf="data.status!='blocked'">Khoá</a>
-          <a *ngIf="data.status=='blocked'">Bỏ khoá</a>
+          <a *ngIf="data.status!='blocked'" (click)="show_status(data.id, 'blocked')" > <span nz-text nzType="danger">Khoá</span></a>
+          <a *ngIf="data.status=='blocked'" (click)="show_status(data.id, 'active')">Bỏ khoá</a>
         </td>
       </tr>
       <tr [nzExpand]="mapOfExpandData[data.id]">
@@ -32,3 +113,22 @@
     </ng-template>
   </tbody>
 </nz-table>
+
+
+<nz-modal [(nzVisible)]="show_role_modal" nzTitle="Thay đổi quyền" (nzOnCancel)="roleCancel()" (nzOnOk)="roleOk()">
+  <form nz-form [formGroup]="role_form">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="5">Quyền</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-select id="role_select" formControlName="role_select">
+            <nz-option nzValue="admin" nzLabel="Quản trị viên"></nz-option>
+            <nz-option nzValue="user" nzLabel="Người dùng thường"></nz-option>
+          </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <div nz-row class="login-form-margin" *ngIf="show_role_error">
+    <nz-alert nzType="error" nzMessage="Tài khoản không có quyền thực hiện hành động này" nzShowIcon></nz-alert>
+  </div>
+</nz-modal>

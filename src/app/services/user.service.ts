@@ -9,8 +9,9 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  get_me(access_token: string){
+  get_me(){
     let login_url = environment.base_url_api + "/me"
+    let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
     }
@@ -45,6 +46,16 @@ export class UserService {
     }
 
     return this.http.get(url, {headers})
+  }
+
+  search_user(user: any){
+    let url = environment.base_url_api + `/search-user`
+    let access_token = localStorage.getItem('access_token')
+    let headers = {
+      'Authorization': 'Bearer '+ access_token
+    }
+
+    return this.http.post(url,user, {headers})
   }
 
   

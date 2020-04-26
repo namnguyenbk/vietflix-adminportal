@@ -19,22 +19,14 @@ export class FilmService {
     return this.http.get(url, {headers})
   }
 
-  add_film(name: string, type: string, image_url: string, video_url: string, episodes: any, meta_data: any){
+  add_film(film: any){
     let url = environment.base_url_api + "/film"
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
     }
-    let body = {
-      name: name,
-      type: type, 
-      image_url: image_url,
-      video: video_url,
-      episodes: JSON.stringify(episodes),
-      meta_data: JSON.stringify(meta_data)
-    }
 
-    return this.http.post(url,body, {headers})
+    return this.http.post(url,film, {headers})
   }
 
   update_film(id: number, name: string, type: string, image_url: string, video_url: string, episodes: any, meta_data: any){
@@ -63,6 +55,16 @@ export class FilmService {
     }
 
     return this.http.delete(url, {headers})
+  }
+
+  search_film(film: any){
+    let url = environment.base_url_api + `/search-film`
+    let access_token = localStorage.getItem('access_token')
+    let headers = {
+      'Authorization': 'Bearer '+ access_token
+    }
+
+    return this.http.post(url, film, {headers})
   }
   
 }
