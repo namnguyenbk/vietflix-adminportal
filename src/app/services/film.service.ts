@@ -10,7 +10,7 @@ export class FilmService {
   constructor(private http: HttpClient) { }
 
   get_film(id: number){
-    let url = environment.base_url_api + `/film/${id}`
+    let url = environment.base_url_api + `/films/${id}`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
@@ -20,7 +20,7 @@ export class FilmService {
   }
 
   add_film(film: any){
-    let url = environment.base_url_api + "/film"
+    let url = environment.base_url_api + "/films"
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
@@ -30,7 +30,7 @@ export class FilmService {
   }
 
   update_film(id: number, name: string, type: string, image_url: string, video_url: string, episodes: any, meta_data: any){
-    let url = environment.base_url_api + `/film${id}`
+    let url = environment.base_url_api + `/films${id}`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
@@ -48,7 +48,7 @@ export class FilmService {
   }
 
   delete_film(id: number){
-    let url = environment.base_url_api + `/film/${id}`
+    let url = environment.base_url_api + `/films/${id}`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token

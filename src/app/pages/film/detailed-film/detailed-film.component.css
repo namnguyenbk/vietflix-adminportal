@@ -1,0 +1,46 @@
+.poster{
+    max-width: 400px;
+    max-height: 400px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+h3{
+    text-align: center;
+    padding: 15px;
+  }
+
+h4{
+    margin: 15px;
+}
+
+.video{
+    margin-left: 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+.trailer{
+    margin-left: 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+.demo-loadmore-list {
+    min-height: 200px;
+    margin-top: 20px;
+    border: 1px dotted #d9d9d9;
+    border-radius: 6px;
+    padding: 10px;
+  }
+  .loadmore {
+    text-align: center;
+    margin-top: 12px;
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .edit-button{
+    margin-right: 8px;
+    margin-bottom: 15px;
+  }

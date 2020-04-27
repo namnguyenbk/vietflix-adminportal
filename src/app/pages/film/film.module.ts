@@ -14,9 +14,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { EditFilmComponent } from './edit-film/edit-film.component';
 
 @NgModule({
-  declarations: [ListFilmComponent, DetailedFilmComponent, AddFilmComponent],
+  declarations: [ListFilmComponent, DetailedFilmComponent, AddFilmComponent, EditFilmComponent],
   imports: [
     CommonModule,
     FilmRoutingModule,
@@ -29,7 +31,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     ReactiveFormsModule,
     NzSelectModule,
     NzStepsModule,
-    NzUploadModule
+    NzUploadModule,
+    NzGridModule
   ]
 })
 export class FilmModule { }
