@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   validateForm: FormGroup;
   show_error: boolean;
   step = 1
+  has_role = false;
 
   email_reset: string;
   resetpassForm: FormGroup;
@@ -28,6 +29,12 @@ export class LoginComponent implements OnInit {
   show_enter_error :boolean;
   isEnterPass : boolean;
 
+  isLoading_login = false;
+  isLoading_reset = false;
+  isLoading_change = false;
+  isLoading_resend = false;
+  isLoading_checkToken = false;
+
   constructor(private fb: FormBuilder, private auth_service: AuthService, public router: Router,
     private notification: NzNotificationService) {
   }
@@ -40,14 +47,22 @@ export class LoginComponent implements OnInit {
     var email = this.validateForm.controls['email'].value;
     var password = this.validateForm.controls['password'].value;
 
+    this.isLoading_login = true;
     this.auth_service.login(email, password).subscribe(
       (res : LoginRes) =>{
         this.show_error = false;
-        this.router.navigate(['home'])
-        localStorage.setItem('access_token', res.access_token)
+        this.isLoading_login = false
+        if(res.user.role == 'user'){
+          this.has_role = true;
+          return;
+        }else{
+          this.router.navigate(['home'])
+          localStorage.setItem('access_token', res.access_token)
+        }
     },
 
       (error) => {
+        this.isLoading_login = false
         this.show_error = true;
     }
     );
@@ -81,8 +96,10 @@ export class LoginComponent implements OnInit {
       return 0;
     }
 
+    this.isLoading_reset = true
     this.auth_service.reset_password(email).subscribe(
       (res : any) =>{
+        this.isLoading_reset = false;
         this.show_reset_error = false;
         this.isVisibleResetPass = false;
         this.email_reset = email;
@@ -90,6 +107,7 @@ export class LoginComponent implements OnInit {
     },
 
       (error) => {
+        this.isLoading_reset = false;
         this.show_reset_error = true;
         this.isVisibleResetPass = true;
     }
@@ -117,16 +135,18 @@ export class LoginComponent implements OnInit {
       return 0;
     }
 
-    this.auth_service.check_reset_password(this.email_reset, token).subscribe(
+    this.isLoading_checkToken = true;
+    this.auth_service.check_reset_password(this.email_reset, token, '').subscribe(
       (res : any) =>{
+        this.isLoading_checkToken = false;
         this.step = 2;
         this.show_reset_error = false;
         this.isTokenPass = false;
-        this.open_modal_enter()
-        
+        this.open_modal_enter();
     },
 
       (error) => {
+        this.isLoading_checkToken = false;
         this.show_token_error = true;
     }
     );
@@ -159,8 +179,10 @@ export class LoginComponent implements OnInit {
       return 0;
     }
 
-    this.auth_service.change_pass(this.email_reset, pass).subscribe(
+    this.isLoading_change =  true;
+    this.auth_service.change_pass(this.email_reset, pass, 'no').subscribe(
       (res : any) =>{
+        this.isLoading_change =  false;
         this.step = 3;
         this.show_enter_error = false;
         this.isEnterPass = false;
@@ -174,6 +196,7 @@ export class LoginComponent implements OnInit {
     },
 
       (error) => {
+        this.isLoading_change =  false;
         this.show_enter_error = true;
     }
     );
@@ -212,13 +235,14 @@ export class LoginComponent implements OnInit {
   }
 
   resend_email(){
+    this.isLoading_resend = true;
     this.auth_service.reset_password(this.email_reset).subscribe(
       (res : any) =>{
-        alert('ff')
+        this.isLoading_resend = false;
     },
 
       (error) => {
-       alert('ffff')
+        this.isLoading_resend = false;
     }
     );
   }

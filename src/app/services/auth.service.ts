@@ -27,13 +27,13 @@ export class AuthService {
     return this.http.post(url, {email})
   }
 
-  check_reset_password(email:string, token: string){
+  check_reset_password(email:string, token: string, new_email:string){
     let url = environment.base_url_api + "/check_reset_password"
-    return this.http.post(url, {email:email, token: token})
+    return this.http.post(url, {email:email, token: token, new_email: new_email})
   }
 
-  change_pass(email: string, pass: string){
+  change_pass(email: string, pass: string, old_pass: string){
     let url = environment.base_url_api + "/change-pass"
-    return this.http.put(url, {email:email, password: pass})
+    return this.http.put(url, {email:email, password: pass, old_password: old_pass})
   }
 }

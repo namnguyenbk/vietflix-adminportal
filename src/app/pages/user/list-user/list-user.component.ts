@@ -25,6 +25,10 @@ export class ListUserComponent implements OnInit {
 
   current_admin_role : string;
 
+  isLoadingUser = false;
+  isLoadingRole = false;
+  isLoadingStatus = false;
+
   constructor(public user_service: UserService, private fb: FormBuilder, private notification: NzNotificationService,
     private modalService: NzModalService) {
   }
@@ -36,21 +40,24 @@ export class ListUserComponent implements OnInit {
     }
     var role = this.role_form.controls['role_select'].value;
 
+    this.isLoadingRole = true;
     this.user_service.update_role(this.user_id, role).subscribe(
       (res:any)=>{
         this.notification.create(
           'success',
           'Thành công',
-          `Cập nhật quyền cho ${this.user_email} thành công`
+          `Cập nhật quyền thành công`
         );
         this.user_email = '';
         this.user_id = -1;
+        this.isLoadingRole = false;
         this.show_role_error = false;
         this.show_role_modal = false;
 
         this.search();
     },
     (error) =>{
+      this.isLoadingRole = false;
       this.show_role_error = true;
     });
 
@@ -62,16 +69,20 @@ export class ListUserComponent implements OnInit {
     this.user_id = -1;
   }
 
-  open_role_modal(user_id: number){
+  open_role_modal(user_id: number, email: string){
     this.show_role_modal = true;
     this.user_id = user_id;
+    this.user_email = email;
   }
 
   show_status(user_id:number, status: string): void {
     this.modalService.confirm({
       nzTitle: '<i>Bạn có muốn thực hiện hành động này?</i>',
       nzContent: `<b>Thay đổi trạng thái tài khoản trở thành: ${status} </b>`,
+      nzCancelText: 'Huỷ',
+      nzOkText: 'Lưu',
       nzOnOk: () =>{
+        this.isLoadingUser = true;
         this.user_service.update_status(user_id, status).subscribe((res:any)=>{
           this.notification.create('success', 'Thành công',  `Thay đổi trạng thái tài khoản trở thành: ${status}`);
           this.search();
@@ -98,22 +109,28 @@ export class ListUserComponent implements OnInit {
       to_date : this.search_form.controls['to_date'].value
     }
 
+    this.isLoadingUser = true;
     this.user_service.search_user(user).subscribe((res:any)=>{
-      this.list_of_user = res
+      this.list_of_user = res;
+      this.isLoadingUser = false;
     })
   }
 
   reset_form(){
     this.search_form.reset();
+    this.isLoadingUser = true;
     this.user_service.get_user().subscribe( (res: any) =>{
-      this.list_of_user = res
+      this.list_of_user = res;
+      this.isLoadingUser = false;
     });
   }
   
 
   ngOnInit(): void {
+    this.isLoadingUser = true;
     this.user_service.get_user().subscribe( (res: any) =>{
-      this.list_of_user = res
+      this.list_of_user = res;
+      this.isLoadingUser = false;
     });
 
     this.search_form = this.fb.group({

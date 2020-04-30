@@ -1,8 +1,8 @@
 
-  <div nz-row>
+  <div nz-row *ngIf="!has_role">
     <div nz-col nzSpan="8"></div>
     <div nz-col nzSpan="8">
-        <h3 nz-typography class="">Login to Admin portal</h3>
+        <h3 nz-typography class="">Đăng nhập vào hệ thống quản trị</h3>
         <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
         <nz-form-item>
           <nz-form-control nzErrorTip="Please input your username!">
@@ -14,7 +14,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Please input your Password!">
             <nz-input-group nzPrefixIcon="lock">
-              <input type="password" nz-input formControlName="password" placeholder="Password" />
+              <input type="password" nz-input formControlName="password" placeholder="Mật khẩu" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -30,8 +30,8 @@
             <a class="login-form-forgot" (click)="open_modal_reset()">Quên mật khẩu</a>
           </div>
         </div>
-        <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">
-          <span>Log in</span>
+        <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" [nzLoading]="isLoading_login">
+          <span>Đăng nhập</span>
         </button>
       </form>
     </div>
@@ -54,14 +54,17 @@
     <div nz-row class="login-form-margin" *ngIf="show_reset_error">
       <nz-alert nzType="error" nzMessage="Email không tồn tại trong hệ thống!" nzShowIcon></nz-alert>
     </div>
+    <div *nzModalFooter>
+      <button nz-button nzType="primary" (click)="handleOkResetPass()" [nzLoading]="isLoading_reset">Gửi</button>
+    </div>
   </nz-modal>
 
 
-  <nz-modal [(nzVisible)]="isTokenPass" nzTitle="Nhập mã xác thực lấy lại mật khẩu" (nzOnCancel)="handleCancelToken()" (nzOnOk)="handleOkToken()">
+  <nz-modal [(nzVisible)]="isTokenPass" nzTitle="Nhập mã xác thực lấy lại mật khẩu" (nzOnCancel)="handleCancelToken()">
     <nz-alert nzType="success" nzMessage="Mã xác thực đã được gửi tới {{email_reset}}" nzShowIcon>
     </nz-alert>
     <br>
-    <span>Nếu chưa nhận được trong vòng 5p </span> <button nz-button nzType="primary" (click)="resend_email()">Gửi lại</button>
+    <span>Nếu chưa nhận được trong vòng 5 phút </span> <button nz-button nzType="primary" (click)="resend_email()" [nzLoading]="isLoading_resend">Gửi lại</button>
     <form nz-form  [formGroup]="tokenForm">
       <br>
       <nz-form-item>
@@ -75,9 +78,12 @@
     <div nz-row class="login-form-margin" *ngIf="show_token_error">
       <nz-alert nzType="error" nzMessage="Lỗi xác thực mã. Vui lòng thử lại!" nzShowIcon></nz-alert>
     </div>
+    <div *nzModalFooter>
+      <button  *ngIf="!isLoading_resend" nz-button nzType="primary" (click)="handleOkToken()" [nzLoading]="isLoading_checkToken">Gửi</button>
+    </div>
   </nz-modal>
 
-  <nz-modal [(nzVisible)]="isEnterPass" nzTitle="Nhập mật khẩu mới" (nzOnCancel)="handleCancelEnter()" (nzOnOk)="handleOkEnter()">
+  <nz-modal [(nzVisible)]="isEnterPass" nzTitle="Nhập mật khẩu mới" (nzOnCancel)="handleCancelEnter()">
     <form nz-form  [formGroup]="enterForm">
       <nz-form-item>
         <nz-form-control nzErrorTip="Nhập mật khẩu">
@@ -98,4 +104,13 @@
     <div nz-row class="login-form-margin" *ngIf="show_enter_error">
       <nz-alert nzType="error" nzMessage="Mật khẩu không hợp lệ. Vui lòng thử lại!" nzShowIcon></nz-alert>
     </div>
+    <div *nzModalFooter>
+      <button nz-button nzType="primary" (click)="handleOkEnter()" [nzLoading]="isLoading_change">Lưu</button>
+    </div>
   </nz-modal>
+
+  <nz-result *ngIf="has_role" nzStatus="403" nzTitle="403" nzSubTitle="Tài khoản không có quyền truy cập vào trang web này.">
+    <div nz-result-extra>
+      <button nz-button nzType="primary" (click)="has_role=false">Trở về trang chủ</button>
+    </div>
+  </nz-result>

@@ -151,7 +151,7 @@
     <i nz-icon nzType="right"></i>
     <span>Tiếp</span>
   </button>
-  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
+  <button [nzLoading]="isLoadingFilm" nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
     <i nz-icon nzType="save"></i>
     <span>Lưu</span>
   </button>

@@ -64,6 +64,8 @@ export class DetailedFilmComponent implements OnInit {
     this.modalService.confirm({
       nzTitle: '<i>Bạn có muốn xoá bình luận này?</i>',
       nzContent: `<b>${text}</b>`,
+      nzCancelText: 'Huỷ',
+      nzOkText: 'Lưu',
       nzOnOk: () => {
         this.comment_service.delete_comments(id).subscribe(res=>{
           this.getData((res: any) => {
@@ -80,6 +82,8 @@ export class DetailedFilmComponent implements OnInit {
     this.modalService.confirm({
       nzTitle: '<i>Bạn có muốn khoá tài khoản này?</i>',
       nzContent: `<b>${username}</b>`,
+      nzCancelText: 'Huỷ',
+      nzOkText: 'Lưu',
       nzOnOk: () => {
         this.user_service.update_status(id,'blocked').subscribe(res=>{})
       }
@@ -94,6 +98,8 @@ export class DetailedFilmComponent implements OnInit {
     this.modalService.confirm({
       nzTitle: '<i>Bạn có muốn xoá phim này?</i>',
       nzContent: `<b>${name}</b>`,
+      nzCancelText: 'Huỷ',
+      nzOkText: 'Lưu',
       nzOnOk: () => {
         this.film_service.delete_film(id).subscribe(res=>{
           this.router.navigate(['film']);

@@ -24,6 +24,9 @@ export class AddFilmComponent implements OnInit {
   listOfControl: Array<{ id: number; controlInstance: string }> = [];
   current = 0;
 
+  isAdding = false;
+  film: any;
+
   pre(): void {
     this.current -= 1;
   }
@@ -91,6 +94,16 @@ export class AddFilmComponent implements OnInit {
 
     meta_data['trailer_url'] = trailer_url
 
+    this.film = {
+      name: this.add_film_form_1.controls['name'].value,
+      type: this.type,
+      image_url: poster_url,
+      video_url: video_url,
+      episodes: episodes,
+      meta_data: meta_data,
+      category: this.add_film_form_1.controls['category'].value
+    }
+
     let film = {
       name: this.add_film_form_1.controls['name'].value,
       type: this.type,
@@ -101,7 +114,9 @@ export class AddFilmComponent implements OnInit {
       category: this.add_film_form_1.controls['category'].value
     }
 
+    this.isAdding = true;
     this.film_service.add_film(film).subscribe((res:any)=>{
+      this.isAdding = false;
       this.notification.create('success', 'Thành công', 'Tạo phim mới thành công!');
       this.router.navigate([`/film/${res.id}`])
     })

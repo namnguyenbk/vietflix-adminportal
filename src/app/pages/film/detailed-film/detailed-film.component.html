@@ -1,5 +1,5 @@
 <h3 nz-title><i nz-icon nzType="video-camera"></i>Chi tiết phim</h3>
-
+<nz-skeleton [nzActive]="true" [nzLoading]="!film"></nz-skeleton>
 <div nz-row [nzAlign]="middle" [nzGutter]="6" *ngIf="film">
     <div nz-col nzSpan="14">
         <div nz-row [nzGutter]="3">

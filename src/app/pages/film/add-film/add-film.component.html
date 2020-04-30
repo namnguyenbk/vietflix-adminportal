@@ -29,7 +29,7 @@
 <nz-form-item>
   <nz-form-label [nzSm]="6" [nzXs]="24">Diễn viên</nz-form-label>
   <nz-form-control [nzSm]="14" [nzXs]="24">
-    <input nz-input formControlName="actor" placeholder="Emma Watson, Daniel Radcliffe"/>
+    <input nz-input formControlName="actor" placeholder="Diễn viên 1, Diễn viên 2, ..."/>
 </nz-form-control>
 </nz-form-item>
 <nz-form-item>
@@ -151,7 +151,7 @@
     <i nz-icon nzType="right"></i>
     <span>Tiếp</span>
   </button>
-  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
+  <button [nzLoading]="isAdding" nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
     <i nz-icon nzType="save"></i>
     <span>Lưu</span>
   </button>

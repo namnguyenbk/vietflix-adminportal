@@ -25,6 +25,9 @@ export class EditFilmComponent implements OnInit {
 
   film_id: number;
   film: any;
+  film_preview:any;
+
+  isLoadingFilm = false;
 
   pre(): void {
     this.current -= 1;
@@ -93,6 +96,17 @@ export class EditFilmComponent implements OnInit {
 
     meta_data['image_url'] = poster_url;
     meta_data['trailer_url'] = trailer_url;
+
+    this.film_preview = {
+      name: this.add_film_form_1.controls['name'].value,
+      type: this.type,
+      image_url: poster_url,
+      video_url: video_url,
+      episodes: episodes,
+      meta_data: meta_data,
+      category: this.add_film_form_1.controls['category'].value
+    }
+
     let film = {
       name: this.add_film_form_1.controls['name'].value,
       type: this.type,
@@ -103,7 +117,9 @@ export class EditFilmComponent implements OnInit {
       category: this.add_film_form_1.controls['category'].value
     }
 
+    this.isLoadingFilm = true;
     this.film_service.update_film(this.film_id, film).subscribe((res:any)=>{
+      this.isLoadingFilm = false;
       this.notification.create('success', 'Thành công', 'Cập nhật thành công!');
       this.router.navigate([`/film/${res.id}`])
     })
@@ -170,12 +186,12 @@ export class EditFilmComponent implements OnInit {
           length: [null],
           video_url: [this.film.video_url, Validators.required],
           trailer_url: [this.film.meta_data.trailer_url, Validators.required],
-          poster_url: [this.film.meta_data.image_url, Validators.required]
+          poster_url: [this.film.image_url, Validators.required]
         });
       }else{
         this.add_film_form_22 = this.fb.group({
           trailer_url_2 : [this.film.meta_data.trailer_url, Validators.required],
-          poster_url_2 : [this.film.meta_data.image_url, Validators.required],
+          poster_url_2 : [this.film.image_url, Validators.required],
         });
         this.film.episodes.forEach(element => {
           const control = {

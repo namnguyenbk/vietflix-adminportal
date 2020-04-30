@@ -19,6 +19,10 @@ export class AuthGuardService implements CanActivate{
             is_valid_token = false;
           }else{
             is_valid_token = true;
+            localStorage.removeItem('username')
+            localStorage.removeItem('email')
+            localStorage.setItem('username', res.name)
+            localStorage.setItem('email', res.email)
           }
 
         },

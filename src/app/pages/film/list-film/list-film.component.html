@@ -6,7 +6,7 @@
           <nz-form-control>
             <input
               nz-input
-              placeholder="Game of thrones"
+              placeholder="Nhập tên phim cần tìm"
               formControlName="search_name"
             />
           </nz-form-control>
@@ -16,9 +16,10 @@
         <nz-form-item>
           <nz-form-label >Thể loại</nz-form-label>
           <nz-form-control>
-            <nz-select nzMode="multiple" id="search_category" formControlName="search_category" [(ngModel)]="search_categories">
-                <nz-option nzValue="kinh di" nzLabel="Kinh di"></nz-option>
-                <nz-option nzValue="hanh dong" nzLabel="Hanh dong"></nz-option>
+            <nz-select nzPlaceHolder="Chọn thể loại" nzMode="multiple" id="search_category" formControlName="search_category" [(ngModel)]="search_categories">
+              <ng-template ngFor let-data [ngForOf]="categories" >
+                <nz-option nzValue="{{data.name}}" nzLabel="{{data.name}}"></nz-option>
+              </ng-template>  
               </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -28,7 +29,7 @@
         <nz-form-item >
           <nz-form-label >Từ ngày</nz-form-label>
           <nz-form-control >
-            <nz-date-picker formControlName="from_date"></nz-date-picker>
+            <nz-date-picker nzPlaceHolder="Chọn ngày" formControlName="from_date"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -37,7 +38,7 @@
         <nz-form-item>
           <nz-form-label >Đến ngày</nz-form-label>
           <nz-form-control >
-            <nz-date-picker formControlName="to_date"></nz-date-picker>
+            <nz-date-picker nzPlaceHolder="Chọn ngày" formControlName="to_date"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -47,7 +48,8 @@
     <div nz-row>
       <div nz-col [nzSpan]="24" class="search-area">
         <button nz-button [nzType]="'primary'" (click)="search()"> <i nz-icon nzType="search"></i>Tìm kiếm</button>
-        <button nz-button (click)="reset_form()">Xoá </button>
+        <button nz-button (click)="reset_form()"><span nz-text nzType="danger">Xoá</span>
+        </button>
       </div>
     </div>
   
@@ -64,7 +66,7 @@
   </div>
 </div>
 
-<nz-table #nzTable [nzData]="list_of_film" [nzPageSize]="list_of_film.length" >
+<nz-table [nzLoading]="isLoadingFilm" #nzTable [nzData]="list_of_film" [nzPageSize]="list_of_film.length" >
     <thead>
       <tr>
         <th>Tên phim</th>

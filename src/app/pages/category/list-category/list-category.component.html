@@ -6,7 +6,7 @@
           <nz-form-control>
             <input
               nz-input
-              placeholder="Jon Nguyen"
+              placeholder="Hài, Kinh dị, ..."
               formControlName="search_name"
             />
           </nz-form-control>
@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <nz-table #nzTable [nzData]="categories" [nzPageSize]="10" >
+  <nz-table [nzLoading]="isLoading" #nzTable [nzData]="categories" [nzPageSize]="10" >
     <thead>
       <tr>
         <th>ID</th>
@@ -62,9 +62,15 @@
   <nz-modal [(nzVisible)]="is_show_edit_modal" nzTitle="Chỉnh sửa tên thể loại phim" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
   nzCancelText="Huỷ" nzOkText="Lưu">
   <input nz-input placeholder="{{current_edit_name}}" [(ngModel)]="current_edit_name" />
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleOk()" >Lưu</button>
+  </div>
   </nz-modal>
 
   <nz-modal [(nzVisible)]="is_show_add_modal" nzTitle="Thêm thể loại phim" (nzOnCancel)="addCancel()" (nzOnOk)="addOk()"
   nzCancelText="Huỷ" nzOkText="Lưu">
   <input nz-input placeholder="Nhập tên thể loại phim" [(ngModel)]="new_category_name" />
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="addOk()" >Lưu</button>
+  </div>
   </nz-modal>

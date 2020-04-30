@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilmService } from 'src/app/services/film.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-list-film',
@@ -15,8 +16,11 @@ export class ListFilmComponent implements OnInit {
   search_categories = [];
 
   show_add_film = false;
+  categories :any;
 
-  constructor(private film_service: FilmService, private fb: FormBuilder, public router: Router) { }
+  isLoadingFilm = false;
+
+  constructor(private film_service: FilmService, private fb: FormBuilder, public router: Router, private category_services: CategoryService) { }
 
   ngOnInit() {
     this.search_form = this.fb.group({
@@ -34,8 +38,13 @@ export class ListFilmComponent implements OnInit {
       'to_date': '2050-01-01'
     }
 
+    this.isLoadingFilm = true;
     this.film_service.search_film(film).subscribe((res:any)=>{
-      this.list_of_film = res
+      this.list_of_film = res;
+      this.category_services.get_category().subscribe(res=>{
+        this.categories = res;
+        this.isLoadingFilm = false;
+      })
     })
 
   }
@@ -53,15 +62,19 @@ export class ListFilmComponent implements OnInit {
       to_date : this.search_form.controls['to_date'].value
     }
 
+    this.isLoadingFilm = true;
     this.film_service.search_film(film).subscribe((res:any)=>{
-      this.list_of_film = res
+      this.list_of_film = res;
+      this.isLoadingFilm = false;
     })
   }
 
   reset_form(){
     this.search_form.reset;
+    this.isLoadingFilm = true;
     this.film_service.search_film({}).subscribe((res:any)=>{
-      this.list_of_film = res
+      this.list_of_film = res;
+      this.isLoadingFilm = false;
     })
   }
 

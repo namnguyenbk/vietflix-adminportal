@@ -8,35 +8,35 @@
     <div class="sidebar-logo">
       <a routerLink="">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-        <h1>Admin portal</h1>
+        <h1>Hệ thống quản trị</h1>
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Dashboard' : ''" nzSelected="{{is_home_selected}}">
         <i nz-icon nzType="dashboard"></i>
-        <span>Dashboard</span>
+        <span>Trang chủ</span>
         <a routerLink="/home"></a>
       </li>
       <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'User' : ''" nzSelected="{{is_user_selected}}">
         <i nz-icon nzType="user"></i>
-        <span>User</span>
+        <span>Quản lí người dùng</span>
         <a routerLink="/user"></a>
       </li>
       <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Film' : ''" nzSelected="{{is_film_selected}}">
         <i nz-icon nzType="youtube"></i>
-        <span>Film</span>
+        <span>Quản lí phim</span>
         <a routerLink="/film"></a>
       </li>
       <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Category' : ''" nzSelected="{{is_category_selected}}">
         <i nz-icon nzType="tag"></i>
-        <span>Category</span>
+        <span>Quản lí thể loại</span>
         <a routerLink="/category"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Inform' : ''" nzSelected="{{is_inform_selected}}">
+      <!-- <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Inform' : ''" nzSelected="{{is_inform_selected}}">
         <i nz-icon nzType="mail"></i>
         <span>Inform</span>
         <a routerLink="/inform"></a>
-      </li>
+      </li> -->
       <!-- <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Inform' : ''">
         <i nz-icon nzType="logout"></i>
         <span>Logout</span>
@@ -52,14 +52,93 @@
                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
             ></i>
         </span>
-        <span nz-text><b>Quản trị viên: Nam nguyễn</b></span>
-        <button nz-button (click)="logout()" [nzSize]="small" nzType="dashed"> <i nz-icon nzType="logout"></i>Logout</button>
-      </div>
+        <span *ngIf="me">
+          <span nz-text *ngIf="me"><b>Quản trị viên: {{me.name}}</b></span>
+          <button nz-button (click)="open_change_info()" [nzSize]="small" nzType="link"> <i nz-icon nzType="profile"></i>Đổi thông tin</button>
+          <button nz-button (click)="open_change_password()" [nzSize]="small" nzType="link"> <i nz-icon nzType="key"></i>Đổi mật khẩu</button>
+          <button nz-button (click)="logout()" [nzSize]="small" nzType="link"> <i nz-icon nzType="logout"></i>Đăng xuất</button>
+     
+        </span>
+         </div>
     </nz-header>
     <nz-content>
       <div class="inner-content">
-        <router-outlet></router-outlet>
+        <router-outlet (activate)='onActivate($event)'></router-outlet>
       </div>
     </nz-content>
   </nz-layout>
 </nz-layout>
+
+<nz-modal [(nzVisible)]="is_show_change_info" nzTitle="Thay đổi thông tin cá nhân" (nzOnCancel)="infoCancel()" (nzOnOk)="infoOk()"
+nzCancelText="Huỷ" nzOkText="Lưu">
+<form nz-form  [formGroup]="change_info_form">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Vui lòng nhập email">
+      <nz-input-group nzPrefixIcon="mail">
+        <input formControlName="email" nz-input placeholder="Nhập email mới" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Vui lòng nhập tên">
+      <nz-input-group nzPrefixIcon="user">
+        <input formControlName="name" nz-input placeholder="Nhập tên mới" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Nhập mật khẩu xác nhận">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" formControlName="password" nz-input placeholder="Nhập mật khẩu" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isTokenPass" nzTitle="Nhập mã xác thực" (nzOnCancel)="handleCancelToken()" (nzOnOk)="handleOkToken()">
+  <nz-alert nzType="success" nzMessage="Mã xác thực đã được gửi tới {{this.change_info_form.controls['email'].value}}" nzShowIcon>
+  </nz-alert>
+  <form nz-form  [formGroup]="tokenForm">
+    <br>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Vui lòng nhập mã xác thực">
+        <nz-input-group nzPrefixIcon="property-safety">
+          <input formControlName="token" nz-input placeholder="Mã xác thực" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div nz-row class="login-form-margin" *ngIf="show_token_error">
+    <nz-alert nzType="error" nzMessage="Lỗi xác thực mã. Vui lòng thử lại!" nzShowIcon></nz-alert>
+  </div>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="is_show_change_password" nzTitle="Thay đổi mật khẩu" (nzOnCancel)="passCancel()" (nzOnOk)="passOk()"
+nzCancelText="Huỷ" nzOkText="Lưu">
+<form nz-form  [formGroup]="change_passwors_form">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Vui lòng nhập mật khẩu cũ">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" formControlName="old_password" nz-input placeholder="Nhập mật khẩu cũ" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Vui lòng nhập mật khẩu mới">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" formControlName="new_password" nz-input placeholder="Nhập mật khẩu mới" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Hai mật khẩu không khớp">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" formControlName="renew_password" nz-input placeholder="Nhập lại mật khẩu mới" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+</nz-modal>

@@ -6,7 +6,7 @@
         <nz-form-control>
           <input
             nz-input
-            placeholder="Jon Nguyen"
+            placeholder="Nam Nguyễn"
             formControlName="search_name"
           />
         </nz-form-control>
@@ -29,7 +29,7 @@
       <nz-form-item>
         <nz-form-label >Trạng thái</nz-form-label>
         <nz-form-control>
-          <nz-select id="search_status" formControlName="search_status">
+          <nz-select id="search_status" formControlName="search_status" nzPlaceHolder="Chọn trạng thái" >
             <nz-option nzValue="active" nzLabel="Hoạt động"></nz-option>
             <nz-option nzValue="blocked" nzLabel="Bị khoá"></nz-option>
           </nz-select>
@@ -43,7 +43,7 @@
       <nz-form-item >
         <nz-form-label >Quyền</nz-form-label>
         <nz-form-control >
-          <nz-select id="search_role" formControlName="search_role">
+          <nz-select id="search_role" formControlName="search_role" nzPlaceHolder="Chọn vai trò" >
             <nz-option nzValue="admin" nzLabel="Quản trị viên"></nz-option>
             <nz-option nzValue="user" nzLabel="Người dùng thường"></nz-option>
           </nz-select>
@@ -55,7 +55,7 @@
       <nz-form-item >
         <nz-form-label >Từ ngày</nz-form-label>
         <nz-form-control >
-          <nz-date-picker formControlName="from_date"></nz-date-picker>
+          <nz-date-picker formControlName="from_date" nzPlaceHolder="Chọn ngày"	></nz-date-picker>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -64,7 +64,7 @@
       <nz-form-item >
         <nz-form-label >Đến ngày</nz-form-label>
         <nz-form-control >
-          <nz-date-picker formControlName="to_date"></nz-date-picker>
+          <nz-date-picker formControlName="to_date" nzPlaceHolder="Chọn ngày"></nz-date-picker>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -72,14 +72,16 @@
 
   <div nz-row>
     <div nz-col [nzSpan]="24" class="search-area">
-      <button nz-button [nzType]="'primary'" (click)="search()">Tìm kiếm</button>
-      <button nz-button (click)="reset_form()">Xoá </button>
+      <button nz-button [nzType]="'primary'" (click)="search()"><i nz-icon nzType="search"></i>
+        Tìm kiếm</button>
+      <button nz-button (click)="reset_form()"><span nz-text nzType="danger">Xoá</span>
+      </button>
     </div>
   </div>
 
 </form>
 
-<nz-table #nzTable [nzData]="list_of_user" [nzPageSize]="list_of_user.length" nzTitle="Danh sách người dùng">
+<nz-table [nzLoading]="isLoadingUser" #nzTable [nzData]="list_of_user" [nzPageSize]="list_of_user.length" nzTitle="Danh sách người dùng">
   <thead>
     <tr>
       <th nzShowExpand></th>
@@ -100,7 +102,7 @@
         <td *ngIf="data.status!='blocked'">{{ data.status }}</td>
         <td>{{ data.role }}</td>
         <td>
-          <a (click)="open_role_modal(data.id)">Cấp quyền</a>
+          <a (click)="open_role_modal(data.id, data.email)">Cấp quyền</a>
           <nz-divider nzType="vertical"></nz-divider>
           <a *ngIf="data.status!='blocked'" (click)="show_status(data.id, 'blocked')" > <span nz-text nzType="danger">Khoá</span></a>
           <a *ngIf="data.status=='blocked'" (click)="show_status(data.id, 'active')">Bỏ khoá</a>
@@ -130,5 +132,8 @@
 
   <div nz-row class="login-form-margin" *ngIf="show_role_error">
     <nz-alert nzType="error" nzMessage="Tài khoản không có quyền thực hiện hành động này" nzShowIcon></nz-alert>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="roleOk()" [nzLoading]="isLoadingRole">Lưu</button>
   </div>
 </nz-modal>

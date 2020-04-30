@@ -58,5 +58,25 @@ export class UserService {
     return this.http.post(url,user, {headers})
   }
 
+  update(id:number, user:any){
+    let url = environment.base_url_api + `/user/${id}`
+    let access_token = localStorage.getItem('access_token')
+    let headers = {
+      'Authorization': 'Bearer '+ access_token
+    }
+
+    return this.http.put(url,user, {headers})
+  }
+
+  update_pass(user:any){
+    let url = environment.base_url_api + `/change-pass`
+    let access_token = localStorage.getItem('access_token')
+    let headers = {
+      'Authorization': 'Bearer '+ access_token
+    }
+
+    return this.http.put(url,user, {headers})
+  }
+
   
 }

@@ -75,3 +75,17 @@
       </nz-col>
     </nz-row>
   </div>
+
+  <div style="display: block;" *ngIf="stat" width="100" height="30">
+    <canvas baseChart 
+    [datasets]="stat.line_chart_data"
+    [labels]="stat.label"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    [legend]="lineChartLegend"
+    [chartType]="lineChartType"
+    [plugins]="lineChartPlugins"
+    >
+  </canvas>
+  </div>
+  
