@@ -1,1 +1,77 @@
-<p>dashboard works!</p>
+<nz-skeleton [nzActive]="true" *ngIf="!stat"></nz-skeleton>
+<div style="background: #ECECEC; padding: 30px;" *ngIf="stat">
+    <nz-row [nzGutter]="8">
+      <nz-col [nzSpan]="8">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="stat.num_film"
+            [nzTitle]="'Số lượng phim trong hệ thống'"
+            [nzPrefix]="prefixTplOne1"
+            [nzValueStyle]="{ color: '#3F8600' }"
+          >
+          </nz-statistic>
+          <ng-template #prefixTplOne1><i nz-icon nzType="video-camera"></i></ng-template>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="stat.num_category"
+            [nzTitle]="'Số lượng thể loại'"
+            [nzPrefix]="prefixTplOne2"
+            [nzValueStyle]="{ color: '#3F8600' }"
+          >
+          </nz-statistic>
+          <ng-template #prefixTplOne2><i nz-icon nzType="tag"></i></ng-template>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="stat.num_rating"
+            [nzTitle]="'Đánh giá'"
+            [nzPrefix]="prefixTplOne3"
+            [nzValueStyle]="{ color: '#3F8600' }"
+          >
+          </nz-statistic>
+          <ng-template #prefixTplOne3><i nz-icon nzType="star"></i></ng-template>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="stat.num_comment"
+            [nzTitle]="'Tổng số bình luận'"
+            [nzPrefix]="prefixTplTwo4"
+            [nzValueStyle]="{ color: '#3F8600' }"
+          >
+          </nz-statistic>
+          <ng-template #prefixTplTwo4><i nz-icon nzType="wechat"></i></ng-template>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="stat.num_user_active"
+            [nzTitle]="'Tài khoản hoạt động'"
+            [nzPrefix]="prefixTplOne5"
+            [nzValueStyle]="{ color: '#3F8600' }"
+          >
+          </nz-statistic>
+          <ng-template #prefixTplOne5><i nz-icon nzType="team"></i></ng-template>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-card>
+          <nz-statistic
+            [nzValue]="stat.num_user_block"
+            [nzTitle]="'Tài khoản bị khoá'"
+            [nzPrefix]="prefixTplTwo6"
+            [nzValueStyle]="{ color: '#CF1322' }"
+          >
+          </nz-statistic>
+          <ng-template #prefixTplTwo6><i nz-icon nzType="team"></i></ng-template>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+  </div>

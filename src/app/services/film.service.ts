@@ -29,22 +29,14 @@ export class FilmService {
     return this.http.post(url,film, {headers})
   }
 
-  update_film(id: number, name: string, type: string, image_url: string, video_url: string, episodes: any, meta_data: any){
-    let url = environment.base_url_api + `/films${id}`
+  update_film(id:number, film: any){
+    let url = environment.base_url_api + `/films/${id}`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
     }
-    let body = {
-      name: name,
-      type: type, 
-      image_url: image_url,
-      video: video_url,
-      episodes: JSON.stringify(episodes),
-      meta_data: JSON.stringify(meta_data)
-    }
 
-    return this.http.put(url,body, {headers})
+    return this.http.put(url,film, {headers})
   }
 
   delete_film(id: number){

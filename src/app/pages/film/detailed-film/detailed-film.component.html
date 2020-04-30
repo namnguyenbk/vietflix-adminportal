@@ -19,11 +19,23 @@
                         </ng-template>
                     </nz-descriptions-item>
                     <nz-descriptions-item nzTitle="Kiểu phát hành">{{film.type==1?'Phim lẻ, chiếu rạp':'Phim bộ, series'}}</nz-descriptions-item>
-                    <nz-descriptions-item nzTitle="Sản xuất">{{film.meta_data.brand}}({{film.meta_data.date?film.meta_data.date:'Năm sản xuất chưa rõ'}}) </nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="Sản xuất">{{film.meta_data.brand}}({{film.meta_data.release_date?film.meta_data.release_date.split('T')[0]:'Năm sản xuất chưa rõ'}}) </nz-descriptions-item>
                     <nz-descriptions-item nzTitle="Tóm tắt nội dung phim">{{film.meta_data.description}}</nz-descriptions-item>
                   </nz-descriptions>
-                  <button nz-button nzType="primary" class="edit-button"><i nz-icon nzType="edit"></i>Sửa phim</button>
-                  <button nz-button nzType="danger" class="edit-button"><i nz-icon nzType="delete"></i>Xoá phim</button>
+                  <button nz-button nzType="primary" class="edit-button" (click)="edit_film(film.id)">
+                      <i nz-icon nzType="edit"></i>Sửa phim</button>
+                  <button nz-button nzType="danger" class="edit-button" (click)="delete_film(film.id, film.name)">
+                      <i nz-icon nzType="delete"></i>Xoá phim</button>
+            </div>
+          </div>
+          <div nz-row [nzGutter]="3" *ngIf="film.type==2">
+            <h4 [ngStyle]="{'margin-top.px': 16 }">Danh sách tập phim</h4>
+            <div nz-col nzSpan="24" class="episode-area" [ngStyle]="{ 'margin-bottom.px': 16, 'margin-top.px': 16 }">
+                <nz-radio-group [(ngModel)]="current_episode">
+                    <ng-template ngFor let-data [ngForOf]="film.episodes">
+                        <label nz-radio-button nzValue="{{data.id}}" (click)="change_episode(data.id)">{{data.id}}</label>
+                    </ng-template>                                                                          
+                  </nz-radio-group>
             </div>
           </div>
     </div>

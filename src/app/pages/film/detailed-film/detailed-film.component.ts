@@ -21,15 +21,18 @@ export class DetailedFilmComponent implements OnInit {
   film_id: number;
   film: any;
   comments: any;
+
+  current_episode =0;
   
   constructor(private route: ActivatedRoute, private film_service: FilmService, private comment_service: CommentService,
-    private modalService: NzModalService, private user_service: UserService) { }
+    private modalService: NzModalService, private user_service: UserService, private router: Router) { }
 
   ngOnInit() {
     this.film_id = parseInt(this.route.snapshot.paramMap.get("film_id"));
     this.film_service.get_film(this.film_id).subscribe((res:any)=>{
       this.film = res
       this.film.meta_data = JSON.parse(res.meta_data);
+      this.film.episodes = JSON.parse(res.episodes);
       // this.comment_service.get_comments(this.film_id).subscribe((res:any)=>{
       //   this.comments = res;
       //   this.list = res.results;
@@ -81,6 +84,27 @@ export class DetailedFilmComponent implements OnInit {
         this.user_service.update_status(id,'blocked').subscribe(res=>{})
       }
     });
+  }
+
+  edit_film(id:number){
+    this.router.navigate([`film/${id}/edit`])
+  }
+
+  delete_film(id: number, name:string){
+    this.modalService.confirm({
+      nzTitle: '<i>Bạn có muốn xoá phim này?</i>',
+      nzContent: `<b>${name}</b>`,
+      nzOnOk: () => {
+        this.film_service.delete_film(id).subscribe(res=>{
+          this.router.navigate(['film']);
+        })
+      }
+    });
+  }
+
+  change_episode(id: number){
+    console.log(id)
+    // this.current_episode = id
   }
 
 }

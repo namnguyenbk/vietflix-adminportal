@@ -19,6 +19,16 @@ export class InformService {
     return this.http.get(url, {headers})
   }
 
+  search(title:string, text:string){
+    let url = environment.base_url_api + "/search-inform"
+    let access_token = localStorage.getItem('access_token')
+    let headers = {
+      'Authorization': 'Bearer '+ access_token
+    }
+
+    return this.http.post(url, {title: title, text: text},{headers})
+  }
+
   add_inform(title: string, text: string){
     let url = environment.base_url_api + "/inform"
     let access_token = localStorage.getItem('access_token')

@@ -1,1 +1,97 @@
-<p>list-inform works!</p>
+<h2>Bỏ chức năng thông báo</h2>
+<!-- <form nz-form [formGroup]="search_form" class="ant-advanced-search-form">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item >
+          <nz-form-label >Tiêu đề</nz-form-label>
+          <nz-form-control>
+            <input
+              nz-input
+              placeholder="Jon Nguyen"
+              formControlName="search_title"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item >
+          <nz-form-label >Nội dung</nz-form-label>
+          <nz-form-control>
+            <input
+              nz-input
+              placeholder=""
+              formControlName="search_text"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  
+    <div nz-row>
+      <div nz-col [nzSpan]="24" class="search-area">
+        <button nz-button [nzType]="'primary'" (click)="search()">
+          <i nz-icon nzType="search"></i>
+          Tìm kiếm</button>
+        <button nz-button (click)="reset_form()">
+            <span nz-text nzType="danger">Xoá</span>
+             </button>
+      </div>
+    </div>
+  
+  </form>
+  <div class="add-area">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="10">
+        <h4 nz-title>Danh sách thông báo</h4>
+      </div>
+      <div nz-col [nzSpan]="10">
+        <button nz-button nzType="primary" (click)="open_add_modal()"><i nz-icon nzType="plus"></i>Thêm thông báo</button>
+      </div>
+    </div>
+  </div>
+  <nz-table #nzTable [nzData]="informs" [nzPageSize]="10" >
+    <thead>
+      <tr>
+        <th>Tên thông báo</th>
+        <th>Nội dung</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>
+            <a (click)="delete_infrom(data.id, data.title)"><span nz-text nzType="danger">Xoá</span></a>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+
+  <nz-modal [(nzVisible)]="is_show_add_modal" nzTitle="Thêm thông báo" (nzOnCancel)="addCancel()" (nzOnOk)="addOk()"
+  nzCancelText="Huỷ" nzOkText="Lưu">
+  <form nz-form [formGroup]="add_form" class="ant-advanced-search-form">
+    <nz-form-item >
+        <nz-form-label >Tiêu đề</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder=""
+            formControlName="title"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item >
+        <nz-form-label >Nội dung</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder=""
+            formControlName="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+  </form>
+  </nz-modal> -->

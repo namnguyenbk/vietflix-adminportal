@@ -1,1 +1,70 @@
-<p>list-category works!</p>
+<form nz-form [formGroup]="search_form" class="ant-advanced-search-form">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="24">
+        <nz-form-item >
+          <nz-form-label >Tên thể loại</nz-form-label>
+          <nz-form-control>
+            <input
+              nz-input
+              placeholder="Jon Nguyen"
+              formControlName="search_name"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  
+    <div nz-row>
+      <div nz-col [nzSpan]="24" class="search-area">
+        <button nz-button [nzType]="'primary'" (click)="search()">
+          <i nz-icon nzType="search"></i>
+          Tìm kiếm</button>
+        <button nz-button (click)="reset_form()">
+            <span nz-text nzType="danger">Xoá</span>
+             </button>
+      </div>
+    </div>
+  
+  </form>
+  <div class="add-area">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="10">
+        <h4 nz-title>Danh sách thể loại</h4>
+      </div>
+      <div nz-col [nzSpan]="10">
+        <button nz-button nzType="primary" (click)="open_add_modal()"><i nz-icon nzType="plus"></i>Thêm thể loại</button>
+      </div>
+    </div>
+  </div>
+  <nz-table #nzTable [nzData]="categories" [nzPageSize]="10" >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên thể loại</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>
+            <a (click)="open_edit_modal(data.id, data.name)">Sửa tên</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="delete_category(data.id, data.name)"><span nz-text nzType="danger">Xoá</span></a>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+
+  <nz-modal [(nzVisible)]="is_show_edit_modal" nzTitle="Chỉnh sửa tên thể loại phim" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+  nzCancelText="Huỷ" nzOkText="Lưu">
+  <input nz-input placeholder="{{current_edit_name}}" [(ngModel)]="current_edit_name" />
+  </nz-modal>
+
+  <nz-modal [(nzVisible)]="is_show_add_modal" nzTitle="Thêm thể loại phim" (nzOnCancel)="addCancel()" (nzOnOk)="addOk()"
+  nzCancelText="Huỷ" nzOkText="Lưu">
+  <input nz-input placeholder="Nhập tên thể loại phim" [(ngModel)]="new_category_name" />
+  </nz-modal>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatService } from 'src/app/services/stat.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  constructor() { }
+  stat:any;
+  constructor(private stat_service: StatService) { }
 
   ngOnInit() {
+    this.stat_service.get().subscribe(res=>{
+      this.stat = res;
+    })
   }
 
 }
