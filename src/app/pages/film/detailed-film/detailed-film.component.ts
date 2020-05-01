@@ -23,6 +23,13 @@ export class DetailedFilmComponent implements OnInit {
   comments: any;
 
   current_episode =0;
+  current_video_url : string;
+
+  poster = null;
+  sources: Plyr.Source[] = [{
+    type: 'video',
+    src: null,
+  }];
   
   constructor(private route: ActivatedRoute, private film_service: FilmService, private comment_service: CommentService,
     private modalService: NzModalService, private user_service: UserService, private router: Router) { }
@@ -33,6 +40,16 @@ export class DetailedFilmComponent implements OnInit {
       this.film = res
       this.film.meta_data = JSON.parse(res.meta_data);
       this.film.episodes = JSON.parse(res.episodes);
+
+      this.poster = this.film.imager_url;
+      if(this.film.video_url){
+        this.current_video_url = this.film.video_url;
+      }else{
+        this.current_video_url = this.film.episodes[0]['video_url'];
+      }
+
+      this.sources[0].src = this.current_video_url;
+
       // this.comment_service.get_comments(this.film_id).subscribe((res:any)=>{
       //   this.comments = res;
       //   this.list = res.results;

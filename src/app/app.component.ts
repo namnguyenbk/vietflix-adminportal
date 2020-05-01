@@ -20,6 +20,10 @@ export class AppComponent implements OnInit {
   is_show_change_info =false;
   is_show_change_password =false;
 
+  isLoadingInfo = false;
+  isLoadingToken = false;
+  isLoadingPass = false;
+
   username : string;
   me : any;
 
@@ -44,30 +48,30 @@ export class AppComponent implements OnInit {
       name: [this.username, [Validators.required]],
       password: [null, [Validators.required]],
     });
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        if(event.url.startsWith('/home')){
-          this.is_home_selected = true;
-          return;
-        }
-        if(event.url.startsWith('/film')){
-          this.is_film_selected = true;
-          return;
-        }
-        if(event.url.startsWith('/category')){
-          this.is_category_selected = true;
-          return;
-        }
-        if(event.url.startsWith('/user')){
-          this.is_user_selected = true;
-          return;
-        }
-        if(event.url.startsWith('/inform')){
-          this.is_inform_selected = true;
-          return;
-        }
-      }
-  });
+  //   this.router.events.subscribe((event: Event) => {
+  //     if (event instanceof NavigationEnd) {
+  //       if(event.url.startsWith('/home')){
+  //         this.is_home_selected = true;
+  //         return;
+  //       }
+  //       if(event.url.startsWith('/film')){
+  //         this.is_film_selected = true;
+  //         return;
+  //       }
+  //       if(event.url.startsWith('/category')){
+  //         this.is_category_selected = true;
+  //         return;
+  //       }
+  //       if(event.url.startsWith('/user')){
+  //         this.is_user_selected = true;
+  //         return;
+  //       }
+  //       if(event.url.startsWith('/inform')){
+  //         this.is_inform_selected = true;
+  //         return;
+  //       }
+  //     }
+  // });
 
   this.user_services.get_me().subscribe(res=>{
     this.me =res
@@ -125,6 +129,7 @@ export class AppComponent implements OnInit {
     var email = this.change_info_form.controls['email'].value;
     var name = this.change_info_form.controls['name'].value;
     var password = this.change_info_form.controls['password'].value;
+    this.isLoadingInfo = true;
     this.user_services.update(this.me.id, {'email': email, 'name': name, 'password': password}).subscribe(res=>{
       localStorage.setItem('email', email)
       localStorage.setItem('username', name)
@@ -134,16 +139,19 @@ export class AppComponent implements OnInit {
         this.isTokenPass = true;
         this.waiting_token = true;
         this.user_services.get_me().subscribe(res=>{
-          this.me =res
-          this.new_email = email
+          this.me =res;
+          this.new_email = email;
+          this.isLoadingInfo = false;
         });
       }else{
         this.user_services.get_me().subscribe(res=>{
-          this.me =res
+          this.me =res;
+          this.isLoadingInfo = false;
         });
         this.notification.create('success', 'Thành công', 'Đã cập nhật thông tin');
       }
     }, error=>{
+      this.isLoadingInfo = false;
       this.notification.create('error', 'Thất bại', `${error.error.error_message}`);
     })
   }
@@ -164,8 +172,10 @@ export class AppComponent implements OnInit {
       return 0;
     }
 
+    this.isLoadingToken = true;
     this.auth_service.check_reset_password(this.me.email, token, this.new_email).subscribe(
       (res : any) =>{
+        this.isLoadingToken = false;
         this.isTokenPass = false;
         this.waiting_token = false;
         this.tokenForm.reset()
@@ -173,6 +183,7 @@ export class AppComponent implements OnInit {
     },
 
       (error) => {
+        this.isLoadingToken = false;
         this.show_token_error = true;
     }
     );
@@ -198,11 +209,14 @@ export class AppComponent implements OnInit {
       return 0;
     }
 
+    this.isLoadingPass = true;
     this.auth_service.change_pass(this.me.email, new_password, old_password).subscribe(res=>{
+      this.isLoadingPass = false;
       this.notification.create('success', 'Thành công', 'Đã cập nhật thông tin');
       this.is_show_change_password = false;
-      this.change_passwors_form.reset()
+      this.change_passwors_form.reset();
     }, error=>{
+      this.isLoadingPass = false;
       this.notification.create('error', 'Thất bại', `${error.error.error_message}`);
     })
   }

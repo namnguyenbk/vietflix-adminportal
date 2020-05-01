@@ -75,14 +75,15 @@ export class ListCategoryComponent implements OnInit {
   }
 
   handleOk(){
+    this.current_edit_name = this.current_edit_name.trim()
     if(this.current_edit_name == null || this.current_edit_name.trim() == ''){
       return;
     }
     this.is_show_edit_modal = false;
-      this.current_edit_id = null;
-      this.current_edit_name = null;
       this.isLoading = true;
     this.category_service.update_category(this.current_edit_id, this.current_edit_name).subscribe(res=>{
+      this.current_edit_id = null;
+      this.current_edit_name = null;
       this.notification.create(
         'success', 'Thành công', `Cập nhật thành công!`
       );
@@ -91,6 +92,8 @@ export class ListCategoryComponent implements OnInit {
         this.isLoading = false;
       }) ;
     }, error=>{
+      this.current_edit_id = null;
+      this.current_edit_name = null;
       this.isLoading = false;
       this.notification.create(
         'error', 'Thất bại', `${error.error.error_message}`
@@ -108,21 +111,23 @@ export class ListCategoryComponent implements OnInit {
   }
 
   addOk(){
+    this.new_category_name = this.new_category_name.trim()
     if(this.new_category_name == null || this.new_category_name.trim() == ''){
       return;
     }
     this.is_show_add_modal = false;
-    this.new_category_name = null;
     this.isLoading = true;
     this.category_service.add_category(this.new_category_name).subscribe(res=>{
       this.notification.create(
         'success', 'Thành công', `Tạo mới thể loại thành công!`
       );
+      this.new_category_name = null;
       this.category_service.get_category().subscribe((res:any)=>{
         this.isLoading = false;
         this.categories = res;
       }) 
     }, error=>{
+      this.new_category_name = null;
       this.isLoading = false;
       this.notification.create(
         'error', 'Thất bại', `${error.error.error_message}`

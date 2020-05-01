@@ -12,22 +12,22 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Dashboard' : ''" nzSelected="{{is_home_selected}}">
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Dashboard' : ''" >
         <i nz-icon nzType="dashboard"></i>
         <span>Trang chủ</span>
         <a routerLink="/home"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'User' : ''" nzSelected="{{is_user_selected}}">
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'User' : ''" >
         <i nz-icon nzType="user"></i>
         <span>Quản lí người dùng</span>
         <a routerLink="/user"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Film' : ''" nzSelected="{{is_film_selected}}">
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Film' : ''" >
         <i nz-icon nzType="youtube"></i>
         <span>Quản lí phim</span>
         <a routerLink="/film"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Category' : ''" nzSelected="{{is_category_selected}}">
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Category' : ''" >
         <i nz-icon nzType="tag"></i>
         <span>Quản lí thể loại</span>
         <a routerLink="/category"></a>
@@ -69,8 +69,8 @@
   </nz-layout>
 </nz-layout>
 
-<nz-modal [(nzVisible)]="is_show_change_info" nzTitle="Thay đổi thông tin cá nhân" (nzOnCancel)="infoCancel()" (nzOnOk)="infoOk()"
-nzCancelText="Huỷ" nzOkText="Lưu">
+<nz-modal [(nzVisible)]="is_show_change_info" nzTitle="Thay đổi thông tin cá nhân" (nzOnCancel)="infoCancel()" [(nzClosable)]="!isLoadingInfo"
+[(nzMaskClosable)]="!isLoadingInfo">
 <form nz-form  [formGroup]="change_info_form">
   <nz-form-item>
     <nz-form-control nzErrorTip="Vui lòng nhập email">
@@ -95,10 +95,15 @@ nzCancelText="Huỷ" nzOkText="Lưu">
     </nz-form-control>
   </nz-form-item>
 </form>
+<div *nzModalFooter>
+  <button nz-button nzType="primary" (click)="infoOk()" [nzLoading]="isLoadingInfo">Gửi</button>
+</div>
 </nz-modal>
 
 
-<nz-modal [(nzVisible)]="isTokenPass" nzTitle="Nhập mã xác thực" (nzOnCancel)="handleCancelToken()" (nzOnOk)="handleOkToken()">
+<nz-modal [(nzVisible)]="isTokenPass" nzTitle="Nhập mã xác thực" (nzOnCancel)="handleCancelToken()" 
+[(nzClosable)]="!isLoadingToken" [(nzMaskClosable)]="!isLoadingToken"
+>
   <nz-alert nzType="success" nzMessage="Mã xác thực đã được gửi tới {{this.change_info_form.controls['email'].value}}" nzShowIcon>
   </nz-alert>
   <form nz-form  [formGroup]="tokenForm">
@@ -114,10 +119,14 @@ nzCancelText="Huỷ" nzOkText="Lưu">
   <div nz-row class="login-form-margin" *ngIf="show_token_error">
     <nz-alert nzType="error" nzMessage="Lỗi xác thực mã. Vui lòng thử lại!" nzShowIcon></nz-alert>
   </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleOkToken()" [nzLoading]="isLoadingToken">Gửi</button>
+  </div>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="is_show_change_password" nzTitle="Thay đổi mật khẩu" (nzOnCancel)="passCancel()" (nzOnOk)="passOk()"
-nzCancelText="Huỷ" nzOkText="Lưu">
+<nz-modal [(nzVisible)]="is_show_change_password" nzTitle="Thay đổi mật khẩu" (nzOnCancel)="passCancel()"
+[(nzClosable)]="!isLoadingPass" [(nzMaskClosable)]="!isLoadingPass"
+>
 <form nz-form  [formGroup]="change_passwors_form">
   <nz-form-item>
     <nz-form-control nzErrorTip="Vui lòng nhập mật khẩu cũ">
@@ -141,4 +150,7 @@ nzCancelText="Huỷ" nzOkText="Lưu">
     </nz-form-control>
   </nz-form-item>
 </form>
+<div *nzModalFooter>
+  <button nz-button nzType="primary" (click)="passOk()" [nzLoading]="isLoadingPass">Gửi</button>
+</div>
 </nz-modal>

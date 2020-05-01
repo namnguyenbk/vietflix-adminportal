@@ -4,7 +4,7 @@
     <div nz-col nzSpan="14">
         <div nz-row [nzGutter]="3">
             <div nz-col nzSpan="12">
-                <img class="poster" src="https://i.pinimg.com/originals/25/67/15/25671546296f7984a5836858d505a36d.jpg" />
+                <img class="poster" src="{{film.image_url}}" />
             </div>
             <div nz-col nzSpan="12">
                 <nz-descriptions nzTitle="{{film.name}}" [nzColumn]="1">
@@ -40,7 +40,9 @@
           </div>
     </div>
     <div nz-col nzSpan="10">
-        <iframe class="video" max-width="560" max-height="315" width="400" height="225" src="https://www.youtube.com/embed/rlR4PJn8b8I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div plyr [plyrPlaysInline]="true" [plyrCrossOrigin]="true" [plyrDriver]="dashjsDriver1" [plyrOptions]="options" [plyrSources]="sources"
+      [plyrPoster]="poster"></div>  
+      <!-- <iframe class="video" max-width="560" max-height="315" width="400" height="225" src="https://www.youtube.com/embed/rlR4PJn8b8I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
         <iframe class="trailer" max-width="560" max-height="315" width="400" height="225" src="https://www.youtube.com/embed/LAdxhHz6Tu4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>

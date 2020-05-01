@@ -16,6 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { EditFilmComponent } from './edit-film/edit-film.component';
+import { PlyrModule } from 'ngx-plyr';
+
 
 @NgModule({
   declarations: [ListFilmComponent, DetailedFilmComponent, AddFilmComponent, EditFilmComponent],
@@ -32,7 +34,8 @@ import { EditFilmComponent } from './edit-film/edit-film.component';
     NzSelectModule,
     NzStepsModule,
     NzUploadModule,
-    NzGridModule
+    NzGridModule,
+    PlyrModule
   ]
 })
 export class FilmModule { }
