@@ -15,7 +15,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ResetPasswordComponent } from './modals/reset-password/reset-password.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { PlyrModule } from 'ngx-plyr';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -35,7 +35,6 @@ registerLocaleData(en);
     ReactiveFormsModule,
     NzModalModule,
     NzFormModule,
-    PlyrModule,
   ],
 
   providers: [{ provide: NZ_I18N, useValue: en_US }, JwtHelperService, { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }],

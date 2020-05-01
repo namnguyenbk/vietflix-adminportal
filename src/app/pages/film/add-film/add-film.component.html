@@ -70,12 +70,12 @@
   </form>
 <!-- Step 2 -->
 <form  *ngIf="current === 1 && type == 1" nz-form [formGroup]="add_film_form_21" class="add-form">
-  <nz-form-item>
+  <!-- <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" >Thời lượng</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24">
       <input nz-input formControlName="length" />
   </nz-form-control>
-</nz-form-item>
+</nz-form-item> -->
 <nz-form-item>
   <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn video phim</nz-form-label>
   <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn video cho phim!">
@@ -85,7 +85,7 @@
 <nz-form-item>
   <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn trailer</nz-form-label>
   <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn trailer phim!">
-    <input nz-input formControlName="trailer_url" />
+    <input nz-input formControlName="trailer_url"  placeholder="Đường dẫn embed của trailer trên Youtube, ví dụ: https://www.youtube.com/embed/VyHV0BRtdxo" />
 </nz-form-control>
 </nz-form-item>
 <nz-form-item>
@@ -100,7 +100,7 @@
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Đường dẫn trailer</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nhập đường dẫn trailer phim!">
-      <input nz-input formControlName="trailer_url_2" />
+      <input nz-input formControlName="trailer_url_2" placeholder="Đường dẫn embed của trailer trên Youtube, ví dụ: https://www.youtube.com/embed/VyHV0BRtdxo"/>
   </nz-form-control>
   </nz-form-item>
   <nz-form-item>

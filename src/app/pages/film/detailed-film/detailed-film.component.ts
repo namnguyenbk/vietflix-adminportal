@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilmService } from 'src/app/services/film.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { NzModalService } from 'ng-zorro-antd';
 import { UserService } from 'src/app/services/user.service';
-
+import {DomSanitizer} from '@angular/platform-browser';
 const count = 5;
-
+import * as Plyr from 'plyr';
 @Component({
   selector: 'app-detailed-film',
   templateUrl: './detailed-film.component.html',
   styleUrls: ['./detailed-film.component.css']
 })
 export class DetailedFilmComponent implements OnInit {
+  
   initLoading = true; // bug
   loadingMore = false;
   data: any[] = [];
@@ -25,14 +26,10 @@ export class DetailedFilmComponent implements OnInit {
   current_episode =0;
   current_video_url : string;
 
-  poster = null;
-  sources: Plyr.Source[] = [{
-    type: 'video',
-    src: null,
-  }];
   
   constructor(private route: ActivatedRoute, private film_service: FilmService, private comment_service: CommentService,
-    private modalService: NzModalService, private user_service: UserService, private router: Router) { }
+    private modalService: NzModalService, private user_service: UserService, private router: Router,
+    private sanitizer : DomSanitizer) { }
 
   ngOnInit() {
     this.film_id = parseInt(this.route.snapshot.paramMap.get("film_id"));
@@ -41,21 +38,15 @@ export class DetailedFilmComponent implements OnInit {
       this.film.meta_data = JSON.parse(res.meta_data);
       this.film.episodes = JSON.parse(res.episodes);
 
-      this.poster = this.film.imager_url;
       if(this.film.video_url){
         this.current_video_url = this.film.video_url;
       }else{
-        this.current_video_url = this.film.episodes[0]['video_url'];
+        this
+        .current_video_url = this.film.episodes[0]['video_url'];
       }
 
-      this.sources[0].src = this.current_video_url;
-
-      // this.comment_service.get_comments(this.film_id).subscribe((res:any)=>{
-      //   this.comments = res;
-      //   this.list = res.results;
-      //   this.initLoading = false;
-      // })
     });
+
     this.getData((res: any) => {
       this.data = res;
       this.list = res;
@@ -128,6 +119,10 @@ export class DetailedFilmComponent implements OnInit {
   change_episode(id: number){
     console.log(id)
     // this.current_episode = id
+  }
+
+  get_trailer_url(){
+    return this.sanitizer.bypassSecurityTrustUrl(this.film.meta_data.trailer_url)
   }
 
 }
