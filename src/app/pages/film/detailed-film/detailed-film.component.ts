@@ -29,7 +29,7 @@ export class DetailedFilmComponent implements OnInit {
   
   constructor(private route: ActivatedRoute, private film_service: FilmService, private comment_service: CommentService,
     private modalService: NzModalService, private user_service: UserService, private router: Router,
-    private sanitizer : DomSanitizer) { }
+    public sanitizer : DomSanitizer) { }
 
   ngOnInit() {
     this.film_id = parseInt(this.route.snapshot.paramMap.get("film_id"));

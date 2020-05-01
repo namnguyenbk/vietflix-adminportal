@@ -12,7 +12,6 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { ResetPasswordComponent } from './modals/reset-password/reset-password.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 
@@ -21,8 +20,7 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    ResetPasswordComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
