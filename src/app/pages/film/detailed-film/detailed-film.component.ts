@@ -24,34 +24,63 @@ export class DetailedFilmComponent implements OnInit {
   comments: any;
 
   current_episode =0;
-  current_video_url : string;
+  current_video_url = localStorage.getItem('video_url');
 
+  list_comments = [];
+  slice_comments = [];
+
+  me: any;
   
   constructor(private route: ActivatedRoute, private film_service: FilmService, private comment_service: CommentService,
     private modalService: NzModalService, private user_service: UserService, private router: Router,
     public sanitizer : DomSanitizer) { }
 
+  public player;
   ngOnInit() {
+    window.scroll(0,0);
+    this.player = new Plyr('#plyrID', { 
+      captions: { active: true }
+    });
     this.film_id = parseInt(this.route.snapshot.paramMap.get("film_id"));
     this.film_service.get_film(this.film_id).subscribe((res:any)=>{
       this.film = res
       this.film.meta_data = JSON.parse(res.meta_data);
       this.film.episodes = JSON.parse(res.episodes);
 
-      if(this.film.video_url){
-        this.current_video_url = this.film.video_url;
-      }else{
-        this
-        .current_video_url = this.film.episodes[0]['video_url'];
+      this.film.meta_data.trailer_url = "https://www.youtube.com/embed/" + this.film.meta_data.trailer_url
+
+      if(!this.current_video_url){
+        if(this.film.video_url){
+          this.current_video_url = this.film.video_url;
+        }else{
+          this
+          .current_video_url = this.film.episodes[0]['video_url'];
+        }
       }
 
+      if(this.film.type == 1){
+        if(this.current_video_url != this.film.video_url){
+          localStorage.setItem('video_url', this.film.video_url)
+          this.router.navigateByUrl(`/film/${this.film.id}/episodes/0`, { skipLocationChange: true }).then(() => {
+            this.router.navigate([`/film/${this.film.id}`]);
+          }); 
+        }
+      }else{
+        
+      }
+
+      this.user_service.get_me().subscribe((res:any)=>{
+        this.me = res;
+        this.comment_service.get_comments(this.film.id).subscribe((res: any) => {
+          this.list_comments = res;
+          this.slice_comments = this.list_comments.slice(0, 10)
+          this.initLoading = false;
+        });
+      });
+
     });
 
-    this.getData((res: any) => {
-      this.data = res;
-      this.list = res;
-      this.initLoading = false;
-    });
+
   }
 
   getData(callback: (res: any) => void): void {
@@ -59,13 +88,7 @@ export class DetailedFilmComponent implements OnInit {
   }
 
   onLoadMore(): void {
-    this.loadingMore = true;
-    this.list = this.data.concat([...Array(count)].fill({}).map(() => ({ loading: true, name: {} })));
-    this.comment_service.get_comments(this.film_id).subscribe((res: any) => {
-      this.data = this.data.concat(res);
-      this.list = [...this.data];
-      this.loadingMore = false;
-    });
+    this.slice_comments = this.list_comments.slice(0, this.slice_comments.length+10)
   }
 
   delete_comment(id: number, text: string){
@@ -75,6 +98,8 @@ export class DetailedFilmComponent implements OnInit {
       nzCancelText: 'Huỷ',
       nzOkText: 'Lưu',
       nzOnOk: () => {
+        this.list_comments = this.list_comments.filter(function(value, index, arr){ return value.id != id;});
+        this.slice_comments = this.list_comments.filter(function(value, index, arr){ return value.id != id;});
         this.comment_service.delete_comments(id).subscribe(res=>{
           this.getData((res: any) => {
             this.data = res;
@@ -116,9 +141,13 @@ export class DetailedFilmComponent implements OnInit {
     });
   }
 
-  change_episode(id: number){
-    console.log(id)
-    // this.current_episode = id
+  change_episode(url: string){
+    // console.log(id)
+    localStorage.setItem('video_url', url);
+    window.scroll(0,0);
+    this.router.navigateByUrl(`/film/${this.film.id}/episodes/0`, { skipLocationChange: true }).then(() => {
+      this.router.navigate([`/film/${this.film.id}`]);
+    }); 
   }
 
   get_trailer_url(){

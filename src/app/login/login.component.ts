@@ -56,8 +56,10 @@ export class LoginComponent implements OnInit {
           this.has_role = true;
           return;
         }else{
-          this.router.navigate(['home'])
-          localStorage.setItem('access_token', res.access_token)
+          localStorage.setItem('username', res.user.name);
+          localStorage.setItem('email', res.user.email);
+          this.router.navigate(['home']);
+          localStorage.setItem('access_token', res.access_token);
         }
     },
 

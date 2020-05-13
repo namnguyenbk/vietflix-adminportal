@@ -10,6 +10,7 @@ const routes: Routes = [
   {path: '', pathMatch: 'full', component: ListFilmComponent},
   {path: 'add-film', pathMatch: 'full', component: AddFilmComponent},
   {path: ':film_id', pathMatch: 'full', component: DetailedFilmComponent},
+  {path: ':film_id/episodes/:episode_id', pathMatch: 'full', component: DetailedFilmComponent},
   {path: ':film_id/edit', pathMatch: 'full', component: EditFilmComponent},
 ];
 

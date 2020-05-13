@@ -84,6 +84,7 @@ export class AddFilmComponent implements OnInit {
           })
         }
       }
+      video_url = episodes[0].video_url
       poster_url = this.add_film_form_22.controls['poster_url_2'].value;
       trailer_url = this.add_film_form_22.controls['trailer_url_2'].value;
     }else{

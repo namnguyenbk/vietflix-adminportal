@@ -1,4 +1,4 @@
-<nz-skeleton [nzActive]="true" *ngIf="!stat"></nz-skeleton>
+<nz-skeleton [nzActive]="true" *ngIf="is_loading"></nz-skeleton>
 <div style="background: #ECECEC; padding: 30px;" *ngIf="stat">
     <nz-row [nzGutter]="8">
       <nz-col [nzSpan]="8">

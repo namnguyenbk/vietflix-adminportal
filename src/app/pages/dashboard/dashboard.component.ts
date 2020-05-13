@@ -9,11 +9,14 @@ import { ChartOptions } from 'chart.js';
 })
 export class DashboardComponent implements OnInit {
   stat:any;
-  constructor(private stat_service: StatService) { }
+  is_loading =true;
+  constructor(private stat_service: StatService) {
+   }
 
   ngOnInit() {
     this.stat_service.get().subscribe(res=>{
       this.stat = res;
+      this.is_loading = false
     })
   }
 

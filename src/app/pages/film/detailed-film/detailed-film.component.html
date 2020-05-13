@@ -4,7 +4,7 @@
     <div nz-col nzSpan="14">
         <div nz-row [nzGutter]="3">
             <div nz-col nzSpan="12">
-                <img class="poster" src="{{film.image_url}}" />
+                <img style="max-width: 300px;" class="poster" src="{{film.image_url}}" />
             </div>
             <div nz-col nzSpan="12">
                 <nz-descriptions nzTitle="{{film.name}}" [nzColumn]="1">
@@ -15,7 +15,7 @@
                     <nz-descriptions-item nzTitle="Diễn viên">{{film.meta_data.actor}}</nz-descriptions-item>
                     <nz-descriptions-item nzTitle="Thể loại">
                         <ng-template ngFor let-data [ngForOf]="film.categories"> 
-                            <nz-tag [nzColor]="'#87d068'"> <a routerLink="/category/{{data.id}}">{{ data.name }}</a></nz-tag>
+                            <nz-tag [nzColor]="'#87d068'"> {{ data.name }}</nz-tag>
                         </ng-template>
                     </nz-descriptions-item>
                     <nz-descriptions-item nzTitle="Kiểu phát hành">{{film.type==1?'Phim lẻ, chiếu rạp':'Phim bộ, series'}}</nz-descriptions-item>
@@ -33,7 +33,7 @@
             <div nz-col nzSpan="24" class="episode-area" [ngStyle]="{ 'margin-bottom.px': 16, 'margin-top.px': 16 }">
                 <nz-radio-group [(ngModel)]="current_episode">
                     <ng-template ngFor let-data [ngForOf]="film.episodes">
-                        <label nz-radio-button nzValue="{{data.id}}" (click)="change_episode(data.id)">{{data.id}}</label>
+                        <label nz-radio-button nzValue="{{data.id}}" (click)="change_episode(data.video_url)">{{data.id}}</label>
                     </ng-template>                                                                          
                   </nz-radio-group>
             </div>
@@ -45,14 +45,19 @@
          <source src="{{current_video_url}}" type="video/mp4"/>             
         </video>
         
+        <!-- <video playsinline controls data-plyr-config='{ "title": "Example Title" }'
+         class="video" max-width="560" max-height="315" width="400" height="225" id="plyrID2" style="max-width:400px;">
+         <source src="{{current_video_url}}" type="video/mp4"/>             
+        </video> -->
+        
       <iframe *ngIf="film.meta_data.trailer_url" class="trailer" max-width="560" max-height="315" width="400" height="225" [src]="sanitizer.bypassSecurityTrustResourceUrl(film.meta_data.trailer_url)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 
   <h4 [ngStyle]="{ 'margin-bottom.px': 16, 'margin-top.px': 16 }">Danh sách bình luận</h4>
-  <nz-list
+  <nz-list *ngIf="slice_comments && me"
       class="demo-loadmore-list"
-      [nzDataSource]="list"
+      [nzDataSource]="slice_comments"
       [nzItemLayout]="'horizontal'"
       [nzLoading]="initLoading"
       [nzRenderItem]="item"
@@ -67,7 +72,7 @@
             <ng-template #editAction><a (click)="delete_comment(item.id, item.text)">
                 <span nz-text nzType="danger">Xoá</span>
             </a></ng-template>
-            <ng-template #moreAction><a (click)="block_user(item.user_id, item.username)" *ngIf="item.user_status=='active'">
+            <ng-template #moreAction><a (click)="block_user(item.user_id, item.username)" *ngIf="item.user_status=='active' && item.user_id != me.id">
                 <span nz-text nzType="danger">Khoá tài khoản</span>
                 </a></ng-template>
             <nz-list-item-meta
@@ -86,7 +91,7 @@
         </nz-list-item>
       </ng-template>
       <ng-template #loadMore>
-        <div class="loadmore" *ngIf="list.length >0">
+        <div class="loadmore" *ngIf="slice_comments.length >10">
           <button nz-button *ngIf="!loadingMore" (click)="onLoadMore()">Hiển thị thêm</button>
         </div>
       </ng-template>

@@ -42,10 +42,10 @@ export class AppComponent implements OnInit {
     private notification: NzNotificationService, private user_services: UserService) {
   }
   ngOnInit() {
-    this.username = `${localStorage.getItem('username')}`
+    this.username = localStorage.getItem('username')
     this.change_info_form = this.fb.group({
       email: [localStorage.getItem('email'), [Validators.email, Validators.required]],
-      name: [this.username, [Validators.required]],
+      name: [localStorage.getItem('username'), [Validators.required]],
       password: [null, [Validators.required]],
     });
   //   this.router.events.subscribe((event: Event) => {
@@ -97,6 +97,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem('username')
     localStorage.removeItem('access_token')
     localStorage.removeItem('access_token')
+    location.reload()
     this.router.navigate(['login']);
 
   }
@@ -131,6 +132,7 @@ export class AppComponent implements OnInit {
     var password = this.change_info_form.controls['password'].value;
     this.isLoadingInfo = true;
     this.user_services.update(this.me.id, {'email': email, 'name': name, 'password': password}).subscribe(res=>{
+      this.change_info_form.controls['password'].reset();
       localStorage.setItem('email', email)
       localStorage.setItem('username', name)
       this.is_show_change_info = false;
@@ -151,6 +153,7 @@ export class AppComponent implements OnInit {
         this.notification.create('success', 'Thành công', 'Đã cập nhật thông tin');
       }
     }, error=>{
+      this.change_info_form.controls['password'].reset();
       this.isLoadingInfo = false;
       this.notification.create('error', 'Thất bại', `${error.error.error_message}`);
     })
@@ -176,6 +179,7 @@ export class AppComponent implements OnInit {
     this.auth_service.check_reset_password(this.me.email, token, this.new_email).subscribe(
       (res : any) =>{
         this.isLoadingToken = false;
+        this.show_token_error = false;
         this.isTokenPass = false;
         this.waiting_token = false;
         this.tokenForm.reset()
@@ -225,6 +229,11 @@ export class AppComponent implements OnInit {
     if(event.constructor.name != "LoginComponent"){
       this.user_services.get_me().subscribe(res=>{
         this.me =res;
+        this.change_info_form = this.fb.group({
+          email: [this.me.email, [Validators.email, Validators.required]],
+          name: [this.me.name, [Validators.required]],
+          password: [null, [Validators.required]],
+        });
       })
     }
   }

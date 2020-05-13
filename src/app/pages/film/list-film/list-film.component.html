@@ -81,7 +81,7 @@
           <td>{{ data.name }}</td>
           <td>
             <ng-template ngFor let-data [ngForOf]="data.categories"> 
-                <nz-tag [nzColor]="'#87d068'"> <a routerLink="/category/{{data.id}}">{{ data.name }}</a></nz-tag>
+                <nz-tag [nzColor]="'#87d068'"> {{ data.name }}</nz-tag>
             </ng-template>
           </td>
           <td>{{ data.created }}</td>
