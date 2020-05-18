@@ -13,9 +13,29 @@ export class AuthGuardService implements CanActivate{
   }
     async canActivate() {
       let is_valid_token = false;
-      await this.user_services.get_me().toPromise().then(
-        (res : User) =>{
-          if( res.role == 'user'){
+      let access_token = localStorage.getItem('access_token');
+      if(access_token){
+        is_valid_token = true;
+      }
+      // await this.user_services.get_me().toPromise().then(
+      //   (res : User) =>{
+      //     if( res.role == 'user'){
+      //       is_valid_token = false;
+      //     }else{
+      //       is_valid_token = true;
+      //       localStorage.removeItem('username')
+      //       localStorage.removeItem('email')
+      //       localStorage.setItem('username', res.name)
+      //       localStorage.setItem('email', res.email)
+      //     }
+
+      //   },
+      //   error =>{
+      //     this.router.navigate(['login'])
+      //   }
+      // )
+      this.user_services.get_me().subscribe((res:User) =>{
+        if( res.role == 'user'){
             is_valid_token = false;
           }else{
             is_valid_token = true;
@@ -24,14 +44,11 @@ export class AuthGuardService implements CanActivate{
             localStorage.setItem('username', res.name)
             localStorage.setItem('email', res.email)
           }
+      }, error =>{
+        this.router.navigate(['login']);
+      });
 
-        },
-        error =>{
-          this.router.navigate(['login'])
-        }
-      )
-
-      return is_valid_token;
+    return is_valid_token;
 
   }
 }

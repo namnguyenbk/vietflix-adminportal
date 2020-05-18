@@ -72,7 +72,7 @@
             <ng-template #editAction><a (click)="delete_comment(item.id, item.text)">
                 <span nz-text nzType="danger">Xoá</span>
             </a></ng-template>
-            <ng-template #moreAction><a (click)="block_user(item.user_id, item.username)" *ngIf="item.user_status=='active' && item.user_id != me.id">
+            <ng-template #moreAction><a (click)="block_user(item.user_id, item.username)" *ngIf="item.user_role != 'admin' && item.user_status=='active' && item.user_id != me.id">
                 <span nz-text nzType="danger">Khoá tài khoản</span>
                 </a></ng-template>
             <nz-list-item-meta
@@ -80,7 +80,7 @@
               [nzDescription]="nzDes"
             >
               <ng-template #nzTitle>
-                <a routerLink="/user?user_id={{item.user_id}}">{{ item.username }}</a>
+                <a routerLink="/user\?user_id={{item.user_id}}">{{ item.username }}</a>
               </ng-template>
               <ng-template #nzDes>
                 <nz-tag *ngIf="item.user_status=='active'" [nzColor]="'#87d068'">Tài khoản hoạt động</nz-tag>
