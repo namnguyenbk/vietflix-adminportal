@@ -118,7 +118,14 @@ export class DetailedFilmComponent implements OnInit {
       nzCancelText: 'Huỷ',
       nzOkText: 'Lưu',
       nzOnOk: () => {
-        this.user_service.update_status(id,'blocked').subscribe(res=>{})
+        this.initLoading = true;
+        this.user_service.update_status(id,'blocked').subscribe(res=>{
+          this.comment_service.get_comments(this.film.id).subscribe((res: any) => {
+            this.list_comments = res;
+            this.slice_comments = this.list_comments.slice(0, 10)
+            this.initLoading = false;
+          });
+        });
       }
     });
   }

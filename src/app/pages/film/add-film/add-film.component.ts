@@ -120,6 +120,9 @@ export class AddFilmComponent implements OnInit {
       this.isAdding = false;
       this.notification.create('success', 'Thành công', 'Tạo phim mới thành công!');
       this.router.navigate([`/film/${res.id}`])
+    }, error=>{
+      this.isAdding = false;
+      this.notification.create('error', 'Thất bại', error.error.error_message);
     })
 
   }
