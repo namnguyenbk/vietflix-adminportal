@@ -9,8 +9,11 @@ export class StatService {
 
   constructor(private http: HttpClient) { }
 
-  get(){
+  get(from_date, to_date){
     let url = environment.base_url_api + "/stat"
+    if(from_date){
+      url = `${url}?from_date=${from_date}&to_date=${to_date}`
+    }
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token

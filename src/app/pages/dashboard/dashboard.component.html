@@ -76,7 +76,86 @@
     </nz-row>
   </div>
 
+  <div style=" padding: 30px; margin-top: 10px;" *ngIf="stat">
+    <nz-divider nzText="Thống kê về lượt xem của film và thể loại" nzOrientation="right"></nz-divider>
+  <nz-skeleton [nzActive]="true" *ngIf="is_loading"></nz-skeleton>
+    <nz-row [nzGutter]="8">
+      <nz-col [nzSpan]="12">
+        <nz-table nzTitle="Top phim được xem nhiều" #view_table [nzData]="stat.top_film_viewed" nzShowPagination="false">
+          <thead>
+            <tr>
+              <th>Tên phim</th>
+              <th>Lượt xem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of view_table.data">
+              <td> <a routerLink="/film/{{data.id}}"> {{ data.name }}</a></td>
+              <td>{{ data.view }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-table nzTitle="Top thể loại được xem nhiều" #category_table [nzData]="stat.top_category_viewed" nzShowPagination="false">
+          <thead>
+            <tr>
+              <th>Tên thể loại</th>
+              <th>Lượt xem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of category_table.data">
+              <td>{{ data.name }}</td>
+              <td>{{ data.total_view}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-col>
+    </nz-row>
+
+    <nz-divider style="margin-top: 50px;" nzText="Thống kê về sự tương tác của người dùng với phim" nzOrientation="left"></nz-divider>
+    <nz-skeleton [nzActive]="true" *ngIf="is_loading"></nz-skeleton>
+    <nz-row [nzGutter]="8">
+      <nz-col [nzSpan]="12">
+        <nz-table nzTitle="Top phim được đánh giá cao" #rate_table [nzData]="stat.top_film_rate" nzShowPagination="false">
+          <thead>
+            <tr>
+              <th>Tên phim</th>
+              <th>Điểm đánh giá trung bình</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of rate_table.data">
+              <td> <a routerLink="/film/{{data.id}}"> {{ data.name }}</a></td>
+              <td>{{ data.total_rating }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-table nzTitle="Top phim bình luận nhiều" #comment_table [nzData]="stat.top_film_comment" nzShowPagination="false">
+          <thead>
+            <tr>
+              <th>Tên phim</th>
+              <th>Lượt bình luận</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of comment_table.data">
+              <td> <a routerLink="/film/{{data.id}}"> {{ data.name }}</a></td>
+              <td>{{ data.total_comment }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-col>
+    </nz-row>
+  </div>
+  
   <div style="display: block;" *ngIf="stat" width="100" height="30">
+    <nz-range-picker (nzOnCalendarChange)="change_range($event)" [nzPlaceHolder]="place_holder_range" style="margin-top: 10px; float: right;" nzSize="large"></nz-range-picker>
     <canvas baseChart 
     [datasets]="stat.line_chart_data"
     [labels]="stat.label"

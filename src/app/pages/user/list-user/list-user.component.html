@@ -2,7 +2,7 @@
   <div nz-row [nzGutter]="24">
     <div nz-col [nzSpan]="8">
       <nz-form-item >
-        <nz-form-label >Tên</nz-form-label>
+        <nz-form-label >Tên người dùng</nz-form-label>
         <nz-form-control>
           <input
             nz-input
@@ -81,11 +81,12 @@
 
 </form>
 
-<nz-table [nzLoading]="isLoadingUser" #nzTable [nzData]="list_of_user" [nzPageSize]="list_of_user.length" nzTitle="Danh sách người dùng">
+<nz-divider style="margin-top: 50px;" nzText="Danh sách người dùng" nzOrientation="left"></nz-divider>
+<nz-table [nzLoading]="isLoadingUser" #nzTable [nzData]="list_of_user" [nzPageSize]="10">
   <thead>
     <tr>
       <th nzShowExpand></th>
-      <th>Tên</th>
+      <th>Tên người dùng</th>
       <th>Email</th>
       <th>Trạng thái</th>
       <th>Quyền</th>

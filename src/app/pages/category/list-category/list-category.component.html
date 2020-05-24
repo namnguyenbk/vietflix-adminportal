@@ -52,7 +52,8 @@
           <td>
             <a (click)="open_edit_modal(data.id, data.name)">Sửa tên</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a (click)="delete_category(data.id, data.name)"><span nz-text nzType="danger">Xoá</span></a>
+            <a *ngIf="!data.is_ref" (click)="delete_category(data.id, data.name)" ><span nz-text nzType="danger">Xoá</span></a>
+            <span id="disable_delete" *ngIf="data.is_ref" style="color: grey;">Xoá</span>
           </td>
         </tr>
       </ng-template>

@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.isLoading_reset = true
-    this.auth_service.reset_password(email).subscribe(
+    this.auth_service.add_verification_code(email).subscribe(
       (res : any) =>{
         this.isLoading_reset = false;
         this.show_reset_error = false;
@@ -138,7 +138,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.isLoading_checkToken = true;
-    this.auth_service.check_reset_password(this.email_reset, token, '').subscribe(
+    this.auth_service.check_verification_code(this.email_reset, token, '').subscribe(
       (res : any) =>{
         this.isLoading_checkToken = false;
         this.step = 2;
@@ -238,7 +238,7 @@ export class LoginComponent implements OnInit {
 
   resend_email(){
     this.isLoading_resend = true;
-    this.auth_service.reset_password(this.email_reset).subscribe(
+    this.auth_service.add_verification_code(this.email_reset).subscribe(
       (res : any) =>{
         this.isLoading_resend = false;
     },

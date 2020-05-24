@@ -12,22 +12,22 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Dashboard' : ''" >
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Dashboard' : ''" [nzSelected]="current_component == 'DashboardComponent'">
         <i nz-icon nzType="dashboard"></i>
-        <span>Trang chủ</span>
-        <a routerLink="/home"></a>
+        <span>Thống kê</span>
+        <a routerLink="/dashboard"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'User' : ''" >
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'User' : ''" [nzSelected]="current_component == 'ListUserComponent'">
         <i nz-icon nzType="user"></i>
         <span>Quản lí người dùng</span>
         <a routerLink="/user"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Film' : ''" >
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Film' : ''" [nzSelected]="current_component.includes('FilmComponent')">
         <i nz-icon nzType="youtube"></i>
         <span>Quản lí phim</span>
         <a routerLink="/film"></a>
       </li>
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Category' : ''" >
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Category' : ''" [nzSelected]="current_component == 'ListCategoryComponent'" >
         <i nz-icon nzType="tag"></i>
         <span>Quản lí thể loại</span>
         <a routerLink="/category"></a>

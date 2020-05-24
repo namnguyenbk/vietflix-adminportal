@@ -38,6 +38,8 @@ export class AppComponent implements OnInit {
 
   change_passwors_form: FormGroup;
 
+  current_component = ''
+
   constructor(public router: Router, private fb: FormBuilder, private auth_service: AuthService,
     private notification: NzNotificationService, private user_services: UserService) {
   }
@@ -176,7 +178,7 @@ export class AppComponent implements OnInit {
     }
 
     this.isLoadingToken = true;
-    this.auth_service.check_reset_password(this.me.email, token, this.new_email).subscribe(
+    this.auth_service.check_verification_code(this.me.email, token, this.new_email).subscribe(
       (res : any) =>{
         this.isLoadingToken = false;
         this.show_token_error = false;
@@ -226,6 +228,7 @@ export class AppComponent implements OnInit {
   }
 
   onActivate(event){
+    this.current_component = event.constructor.name
     if(event.constructor.name != "LoginComponent"){
       this.user_services.get_me().subscribe(res=>{
         this.me =res;

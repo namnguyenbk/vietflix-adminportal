@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.stat_service.get().subscribe(res=>{
+    this.stat_service.get(null, null).subscribe(res=>{
       this.stat = res;
       this.is_loading = false
     })
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
     title: {
       display: true,
-      text: 'Số lượng người dùng đăng ký trong 30 ngày'
+      text: 'Biểu đồ số lượng người dùng đăng kí'
   }
   };
   public lineChartColors = [
@@ -41,5 +41,21 @@ export class DashboardComponent implements OnInit {
   public lineChartType = 'line';
   public lineChartPlugins = [];
 
+  place_holder_range = ['Chọn khoảng','thời gian']
+
+  change_range(event:any){
+    if(event.length == 2){
+      // this.stat = null;
+      this.is_loading = true;
+      let from_date = `${event[0].getFullYear()}-${event[0].getMonth() + 1}-${event[0].getDate()}`;
+      let to_date = `${event[1].getFullYear()}-${event[1].getMonth()+1}-${event[1].getDate()}`;
+      console.log(from_date, to_date);
+      this.place_holder_range = [from_date, to_date];
+      this.stat_service.get(from_date, to_date).subscribe(res=>{
+        this.stat = res;
+        this.is_loading = false;
+      })
+    }
+  }
 
 }
