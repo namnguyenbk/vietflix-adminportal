@@ -79,7 +79,7 @@ export class AddFilmComponent implements OnInit {
       for (const i in this.add_film_form_22.controls) {
         if(i.startsWith('passenger')){
           episodes.push({
-            id: parseInt(i.split('_')[1]),
+            id: parseInt(i.split('_')[1]) + 1,
             video_url: this.add_film_form_22.controls[i].value
           })
         }
