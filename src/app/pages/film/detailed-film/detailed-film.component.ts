@@ -23,8 +23,8 @@ export class DetailedFilmComponent implements OnInit {
   film: any;
   comments: any;
 
-  current_episode =0;
-  current_video_url = localStorage.getItem('video_url');
+  current_episode ='1';
+  current_video_url:any;
 
   list_comments = [];
   slice_comments = [];
@@ -151,10 +151,11 @@ export class DetailedFilmComponent implements OnInit {
   change_episode(url: string){
     // console.log(id)
     localStorage.setItem('video_url', url);
+    this.current_video_url = url;
     window.scroll(0,0);
-    this.router.navigateByUrl(`/film/${this.film.id}/episodes/0`, { skipLocationChange: true }).then(() => {
-      this.router.navigate([`/film/${this.film.id}`]);
-    }); 
+    // this.router.navigateByUrl(`/film/${this.film.id}/episodes/0`, { skipLocationChange: true }).then(() => {
+    //   this.router.navigate([`/film/${this.film.id}`]);
+    // }); 
   }
 
   get_trailer_url(){

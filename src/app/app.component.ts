@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem('access_token')
     localStorage.removeItem('access_token')
     location.reload()
-    this.router.navigate(['login']);
+    // this.router.navigate(['login']);
 
   }
 

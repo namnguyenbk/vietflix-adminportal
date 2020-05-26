@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StatService } from 'src/app/services/stat.service';
 import { ChartOptions } from 'chart.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,13 +11,15 @@ import { ChartOptions } from 'chart.js';
 export class DashboardComponent implements OnInit {
   stat:any;
   is_loading =true;
-  constructor(private stat_service: StatService) {
+  constructor(private stat_service: StatService, private router: Router) {
    }
 
   ngOnInit() {
     this.stat_service.get(null, null).subscribe(res=>{
       this.stat = res;
       this.is_loading = false
+    }, error =>{
+      this.router.navigate(['login']);
     })
   }
 

@@ -40,9 +40,9 @@
           </div>
     </div>
     <div nz-col nzSpan="10">
-        <video playsinline controls data-plyr-config='{ "title": "Example Title" }'
+        <video #video_film [src]="current_video_url" playsinline controls data-plyr-config='{ "title": "Example Title" }'
          class="video" max-width="560" max-height="315" width="400" height="225" id="plyrID" style="max-width:400px;" data-poster="{{film.image_url}}">
-         <source src="{{current_video_url}}" type="video/mp4"/>             
+         <!-- <source src="{{current_video_url}}" type="video/mp4"/>              -->
         </video>
         
         <!-- <video playsinline controls data-plyr-config='{ "title": "Example Title" }'
