@@ -76,7 +76,15 @@ export class AppComponent implements OnInit {
   // });
 
   this.user_services.get_me().subscribe(res=>{
-    this.me =res
+    this.me =res;
+    if(this.me.status != 'active'){
+      localStorage.clear();
+      this.router.navigate(['login']);
+    }
+    if(this.me.role == 'user' ){
+      // localStorage.clear();
+      this.router.navigate(['login']);
+    }
   });
 
   this.tokenForm = this.fb.group({

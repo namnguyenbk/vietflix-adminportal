@@ -80,7 +80,9 @@
               [nzDescription]="nzDes"
             >
               <ng-template #nzTitle>
-                <a routerLink="/user\?user_id={{item.user_id}}">{{ item.username }}</a>
+                <p>User ID: {{item.id}}</p>
+                <p>Tên người dùng: {{item.username}}</p>
+                <!-- <a nz-popover  nzPopoverTitle="User ID: {{item.id}}" nzPopoverContent="Email: {{item.email}}">{{ item.username }}</a> -->
               </ng-template>
               <ng-template #nzDes>
                 <nz-tag *ngIf="item.user_status=='active'" [nzColor]="'#87d068'">Tài khoản hoạt động</nz-tag>
