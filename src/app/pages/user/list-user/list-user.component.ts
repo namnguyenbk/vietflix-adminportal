@@ -12,7 +12,7 @@ import { NzNotificationService, NzModalService } from 'ng-zorro-antd';
 })
 export class ListUserComponent implements OnInit {
   list_of_user = [];
-  
+
   mapOfExpandData: { [key: string]: boolean } = {};
 
   role_form: FormGroup;
@@ -20,6 +20,7 @@ export class ListUserComponent implements OnInit {
   show_role_error : boolean;
   user_id :number;
   user_email : string;
+  me:any;
 
   search_form : FormGroup;
 
@@ -113,6 +114,7 @@ export class ListUserComponent implements OnInit {
     this.user_service.search_user(user).subscribe((res:any)=>{
       this.list_of_user = res;
       this.isLoadingUser = false;
+      this.list_of_user = this.check_permission(this.list_of_user);
     })
   }
 
@@ -122,9 +124,10 @@ export class ListUserComponent implements OnInit {
     this.user_service.get_user().subscribe( (res: any) =>{
       this.list_of_user = res;
       this.isLoadingUser = false;
+      this.list_of_user = this.check_permission(this.list_of_user);
     });
   }
-  
+
 
   ngOnInit(): void {
     this.isLoadingUser = true;
@@ -151,11 +154,32 @@ export class ListUserComponent implements OnInit {
     this.user_email = ""
 
     this.user_service.get_me().subscribe((res:any)=>{
-      this.current_admin_role = res.role
-      console.log(this.current_admin_role)
-    })
-
+      this.current_admin_role = res.role;
+      this.me = res;
+      this.list_of_user = this.check_permission(this.list_of_user);
+    });
   }
 
-  
+  check_permission(users:any){
+    for(let i =0; i< users.length; i++){
+      let user = users[i];
+      if(user.id == this.me.id || user.role =='root'){
+        user.is_have_permission = false;
+        continue;
+      }
+      if(this.me.role == 'root'){
+        user.is_have_permission = true;
+      }else {
+        if(user.role == 'user'){
+          user.is_have_permission = true;
+        }else {
+          user.is_have_permission = false;
+        }
+      }
+    }
+
+    return users
+  }
+
 }
+

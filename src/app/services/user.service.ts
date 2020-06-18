@@ -25,7 +25,7 @@ export class UserService {
       'Authorization': 'Bearer '+ access_token
     }
 
-    return this.http.put(url,{user_id: user_id, role: role}, {headers})
+    return this.http.put(url,{account_id: user_id, role: role}, {headers})
   }
 
   update_status(user_id: number, status: string){
@@ -35,11 +35,11 @@ export class UserService {
       'Authorization': 'Bearer '+ access_token
     }
 
-    return this.http.put(url,{user_id: user_id, status: status}, {headers})
+    return this.http.put(url,{account_id: user_id, status: status}, {headers})
   }
 
   get_user(){
-    let url = environment.base_url_api + `/users`
+    let url = environment.base_url_api + `/accounts`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
@@ -49,7 +49,7 @@ export class UserService {
   }
 
   search_user(user: any){
-    let url = environment.base_url_api + `/search-user`
+    let url = environment.base_url_api + `/search-account`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
@@ -59,7 +59,7 @@ export class UserService {
   }
 
   update(id:number, user:any){
-    let url = environment.base_url_api + `/user/${id}`
+    let url = environment.base_url_api + `/account/${id}`
     let access_token = localStorage.getItem('access_token')
     let headers = {
       'Authorization': 'Bearer '+ access_token
@@ -78,5 +78,5 @@ export class UserService {
     return this.http.put(url,user, {headers})
   }
 
-  
+
 }

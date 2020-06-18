@@ -35,3 +35,7 @@ button {
   nz-select nz-date-picker {
     width: 100%;
   }
+
+.disable_delete:hover{
+  cursor: not-allowed;
+}

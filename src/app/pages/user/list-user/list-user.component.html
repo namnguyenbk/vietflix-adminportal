@@ -103,15 +103,19 @@
         <td *ngIf="data.status!='blocked'">{{ data.status }}</td>
         <td>{{ data.role }}</td>
         <td>
-          <a (click)="open_role_modal(data.id, data.email)">Cấp quyền</a>
+          <a *ngIf="data.is_have_permission && me.role =='root'" (click)="open_role_modal(data.id, data.email)">Cấp quyền</a>
+          <span class="disable_delete" *ngIf="!data.is_have_permission || me.role !='root'" style="color: grey;">Cấp quyền</span>
           <nz-divider nzType="vertical"></nz-divider>
-          <a *ngIf="data.status!='blocked'" (click)="show_status(data.id, 'blocked')" > <span nz-text nzType="danger">Khoá</span></a>
-          <a *ngIf="data.status=='blocked'" (click)="show_status(data.id, 'active')">Bỏ khoá</a>
+          <a *ngIf="data.is_have_permission && data.status!='blocked'" (click)="show_status(data.id, 'blocked')" > <span nz-text nzType="danger">Khoá</span></a>
+          <span class="disable_delete" *ngIf="!data.is_have_permission && data.status!='blocked'" style="color: grey;">Khoá</span>
+
+          <a *ngIf="data.is_have_permission && data.status=='blocked'" (click)="show_status(data.id, 'active')">Bỏ khoá</a>
+          <span class="disable_delete" *ngIf="!data.is_have_permission && data.status=='blocked'" style="color: grey;">Bỏ khoá</span>
         </td>
       </tr>
       <tr [nzExpand]="mapOfExpandData[data.id]">
         <td></td>
-        <td colspan="5">{{data.name}} - {{ data.created }}</td>
+        <td colspan="5">ID: {{data.id}} - {{data.name}} - Tạo tài khoản ngày: {{ data.created.split('T')[0] }}</td>
       </tr>
     </ng-template>
   </tbody>

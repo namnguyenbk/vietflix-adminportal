@@ -2,7 +2,7 @@ import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilmService } from 'src/app/services/film.service';
 import { CommentService } from 'src/app/services/comment.service';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { UserService } from 'src/app/services/user.service';
 import {DomSanitizer} from '@angular/platform-browser';
 const count = 5;
@@ -32,7 +32,8 @@ export class DetailedFilmComponent implements OnInit {
   me: any;
   
   constructor(private route: ActivatedRoute, private film_service: FilmService, private comment_service: CommentService,
-    private modalService: NzModalService, private user_service: UserService, private router: Router,
+    private modalService: NzModalService, private user_service: UserService, private router: Router, 
+    private notification_service: NzNotificationService,
     public sanitizer : DomSanitizer) { }
 
   public player;
@@ -143,19 +144,17 @@ export class DetailedFilmComponent implements OnInit {
       nzOnOk: () => {
         this.film_service.delete_film(id).subscribe(res=>{
           this.router.navigate(['film']);
-        })
+        }, error => {
+          this.notification_service.create('error', 'Thất bại', 'Không thể xoá phim này!')
+        });
       }
     });
   }
 
   change_episode(url: string){
-    // console.log(id)
     localStorage.setItem('video_url', url);
     this.current_video_url = url;
     window.scroll(0,0);
-    // this.router.navigateByUrl(`/film/${this.film.id}/episodes/0`, { skipLocationChange: true }).then(() => {
-    //   this.router.navigate([`/film/${this.film.id}`]);
-    // }); 
   }
 
   get_trailer_url(){

@@ -52,12 +52,12 @@ export class LoginComponent implements OnInit {
       (res : LoginRes) =>{
         this.show_error = false;
         this.isLoading_login = false
-        if(res.user.role == 'user'){
+        if(res.account.role == 'user'){
           this.has_role = true;
           return;
         }else{
-          localStorage.setItem('username', res.user.name);
-          localStorage.setItem('email', res.user.email);
+          localStorage.setItem('username', res.account.name);
+          localStorage.setItem('email', res.account.email);
           this.router.navigate(['home']);
           localStorage.setItem('access_token', res.access_token);
         }

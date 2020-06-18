@@ -8,5 +8,5 @@ export interface User {
 
 export interface LoginRes{
   access_token: string;
-  user: User
+  account: User
 }
