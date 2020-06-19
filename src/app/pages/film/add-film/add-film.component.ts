@@ -70,8 +70,7 @@ export class AddFilmComponent implements OnInit {
       actor: this.add_film_form_1.controls['actor'].value,
       brand: this.add_film_form_1.controls['brand'].value,
       description: this.add_film_form_1.controls['description'].value,
-      release_date: this.add_film_form_1.controls['date'].value
-      // release_date:  release_date?`${release_date.getFullYear()}-${release_date.getMonth()}-${release_date.getDate()}`:''
+      release_date: this.add_film_form_1.controls['date'].value,
     }
 
     let episodes = []
