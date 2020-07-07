@@ -153,10 +153,10 @@
       </nz-col>
     </nz-row>
   </div>
-  
+
   <div style="display: block;" *ngIf="stat" width="100" height="30">
-    <nz-range-picker (nzOnCalendarChange)="change_range($event)" [nzPlaceHolder]="place_holder_range" style="margin-top: 10px; float: right;" nzSize="large"></nz-range-picker>
-    <canvas baseChart 
+<!--    <nz-range-picker (nzOnCalendarChange)="change_range($event)" [nzPlaceHolder]="place_holder_range" style="margin-top: 10px; float: right;" nzSize="large"></nz-range-picker>-->
+    <canvas baseChart
     [datasets]="stat.line_chart_data"
     [labels]="stat.label"
     [options]="lineChartOptions"
@@ -167,4 +167,3 @@
     >
   </canvas>
   </div>
-  
